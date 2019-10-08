@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "HomeViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -16,7 +16,23 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    //bar
+    UITabBarController * barVC = [[UITabBarController alloc] init];
+    [[UITabBar appearance] setBackgroundColor:[UIColor whiteColor]];
+    HomeViewController * homeVC = [[HomeViewController alloc] init];
+    homeVC.tabBarItem.title = @"游戏";
+    homeVC.tabBarItem.image = [UIImage imageNamed:@"shipin"];
+    [barVC addChildViewController:homeVC];
+//    UINavigationController * rootVC = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    UIViewController * vc = [[UIViewController alloc] init];
+    vc.tabBarItem.title = @"个人资料";
+    vc.tabBarItem.image = [UIImage imageNamed:@"Profile"];
+    [barVC addChildViewController:vc];
+    [self.window setRootViewController:barVC];
+    [self.window makeKeyAndVisible];
+    [UIApplication sharedApplication].statusBarHidden = YES;
+    
     return YES;
 }
 
