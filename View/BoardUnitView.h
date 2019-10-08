@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, UnitStatus) {
 @interface BoardUnitView : UIImageView
 
 @property(nonatomic, assign)UnitStatus unitStatus;
+@property(nonatomic, assign)BOOL couldModified;
 @property(nonatomic, strong)UIImageView * backView;
 @property(nonatomic, strong)UILabel * numLabel;
 

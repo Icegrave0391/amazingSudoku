@@ -22,16 +22,16 @@
 - (void)setUnitStatus:(UnitStatus)unitStatus{
     _unitStatus = unitStatus;
     if(unitStatus == UnitStatusInitial){                 //initial grids
-        
+        self.couldModified = NO;
     }
     else if(unitStatus == UnitStatusWrong){              //gird wrong
-        
+        self.couldModified = YES;
     }
     else if(unitStatus == UnitStatusSatisfied){          //grid satisfied
-        
+        self.couldModified = YES;
     }
     else{                                                //grid normal
-        
+        self.couldModified = YES;
     }
 }
 @end

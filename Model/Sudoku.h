@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "NSArray+TwoDArray.h"
 #import "MapCreater.h"
-
-
 NS_ASSUME_NONNULL_BEGIN
 @interface Sudoku : NSObject
 @property(nonatomic, strong)NSArray * mapArr;  //map board

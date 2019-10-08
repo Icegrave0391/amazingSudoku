@@ -224,7 +224,6 @@ int uniqueSolution(int row, int col){
             tfield[i][j] = sudokuBoard[i][j];
         }
     }
-    
     // 假设挖掉这个数字
     trows[row][sudokuBoard[row][col]] = 0;
     tcols[col][sudokuBoard[row][col]] = 0;
