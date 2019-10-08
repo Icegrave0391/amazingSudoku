@@ -19,6 +19,7 @@
 		08D37AF8233A148500293715 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D37AF7233A148500293715 /* main.m */; };
 		08D37B02233A148500293715 /* amazingSudokuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D37B01233A148500293715 /* amazingSudokuTests.m */; };
 		08D37B0D233A148500293715 /* amazingSudokuUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D37B0C233A148500293715 /* amazingSudokuUITests.m */; };
+		211F642C234C841C000B3C33 /* MapSolver.c in Sources */ = {isa = PBXBuildFile; fileRef = 211F642B234C841C000B3C33 /* MapSolver.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		08D37B08233A148500293715 /* amazingSudokuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = amazingSudokuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D37B0C233A148500293715 /* amazingSudokuUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = amazingSudokuUITests.m; sourceTree = "<group>"; };
 		08D37B0E233A148500293715 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		211F642A234C841C000B3C33 /* MapSolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapSolver.h; sourceTree = "<group>"; };
+		211F642B234C841C000B3C33 /* MapSolver.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MapSolver.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +116,8 @@
 			children = (
 				089461F5233A3FE5008F14B8 /* MapCreater.h */,
 				089461F6233A3FE5008F14B8 /* MapCreater.c */,
+				211F642A234C841C000B3C33 /* MapSolver.h */,
+				211F642B234C841C000B3C33 /* MapSolver.c */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -327,6 +332,7 @@
 				089461F3233A1A5D008F14B8 /* Sudoku.m in Sources */,
 				089461F7233A3FE5008F14B8 /* MapCreater.c in Sources */,
 				08D37AEA233A148300293715 /* AppDelegate.m in Sources */,
+				211F642C234C841C000B3C33 /* MapSolver.c in Sources */,
 				0876304E234C7964009F2D8F /* BoardUnitView.m in Sources */,
 				088866B3233B45CF00314201 /* HomeViewController.m in Sources */,
 			);
