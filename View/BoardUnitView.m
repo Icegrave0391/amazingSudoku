@@ -10,10 +10,11 @@
 
 @implementation BoardUnitView
 
-- (instancetype)init{
+- (instancetype)initWithSudokuNumber:(NSNumber *)number{
     self = [super init];
     if(self){
         //
+        self.unitNumber = number;
     }
     return self;
 }
@@ -34,4 +35,9 @@
         self.couldModified = YES;
     }
 }
+
+-(void)setUnitNumber:(NSNumber *)unitNumber{
+    
+}
+
 @end

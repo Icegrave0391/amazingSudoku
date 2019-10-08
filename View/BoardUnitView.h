@@ -19,10 +19,12 @@ typedef NS_ENUM(NSInteger, UnitStatus) {
 
 @property(nonatomic, assign)UnitStatus unitStatus;
 @property(nonatomic, assign)BOOL couldModified;
+//UI
 @property(nonatomic, strong)UIImageView * backView;
 @property(nonatomic, strong)UILabel * numLabel;
-
-- (instancetype)init;
+//model
+@property(nonatomic, strong)NSNumber * unitNumber;
+- (instancetype)initWithSudokuNumber:(NSNumber *)number;
 @end
 
 NS_ASSUME_NONNULL_END

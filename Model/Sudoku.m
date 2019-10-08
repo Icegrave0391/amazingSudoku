@@ -17,6 +17,7 @@
     if(self){
         generateSudoku(level);   //convert to sudoku[][] & sudokusolution[][]
         self.mapArr = [NSArray convert2DArray:sudokuBoard];
+        self.currentSolArr = [NSMutableArray arrayWithArray:self.mapArr];
         self.solArr = [NSArray convert2DArray:sudokuSolution];
     }
     return self;

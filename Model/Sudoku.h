@@ -12,6 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface Sudoku : NSObject
 @property(nonatomic, strong)NSArray * mapArr;  //map board
+@property(nonatomic, strong)NSMutableArray * currentSolArr;
 @property(nonatomic, strong)NSArray * solArr;  //solution
 
 - (instancetype)initWithLevel:(SudokuLevel)level;
