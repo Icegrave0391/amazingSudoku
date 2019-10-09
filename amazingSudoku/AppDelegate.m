@@ -19,16 +19,27 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     //bar
     UITabBarController * barVC = [[UITabBarController alloc] init];
-    [[UITabBar appearance] setBackgroundColor:[UIColor whiteColor]];
+    [barVC.tabBar setTranslucent:NO];
+    barVC.tabBar.barTintColor = [UIColor colorWithRed:0.84 green:0.71 blue:0.71 alpha:1.0];
     HomeViewController * homeVC = [[HomeViewController alloc] init];
     homeVC.tabBarItem.title = @"游戏";
-    homeVC.tabBarItem.image = [UIImage imageNamed:@"shipin"];
+    homeVC.tabBarItem.image = [UIImage imageNamed:@"game"];
+    homeVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"game_sel"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [homeVC.tabBarItem setTitleTextAttributes:@{
+                                                NSForegroundColorAttributeName:[UIColor colorWithRed:0.76 green:0.22 blue:0.47 alpha:1.0]
+                                                } forState:UIControlStateSelected];
     [barVC addChildViewController:homeVC];
-//    UINavigationController * rootVC = [[UINavigationController alloc] initWithRootViewController:homeVC];
     UIViewController * vc = [[UIViewController alloc] init];
-    vc.tabBarItem.title = @"个人资料";
-    vc.tabBarItem.image = [UIImage imageNamed:@"Profile"];
+    vc.tabBarItem.title = @"排行榜";
+    vc.tabBarItem.image = [UIImage imageNamed:@"rank"];
+    UIImage * rankSel = [[UIImage imageNamed:@"rank_sel"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    vc.tabBarItem.selectedImage = rankSel;
+    [vc.tabBarItem setTitleTextAttributes:@{
+                                            NSForegroundColorAttributeName:[UIColor colorWithRed:0.76 green:0.22 blue:0.47 alpha:1.0]
+                                            } forState:UIControlStateSelected];
+    
     [barVC addChildViewController:vc];
+    
     [self.window setRootViewController:barVC];
     [self.window makeKeyAndVisible];
     [UIApplication sharedApplication].statusBarHidden = YES;

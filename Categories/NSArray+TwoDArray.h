@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSArray (TwoDArray)
 
+typedef int (*intArr)[9];
 + (NSArray *)convert2DArray:(int[_Nullable 9][9])arr;
++ (intArr)convert2DNSArray:(NSArray *)array;
 
 @end
 

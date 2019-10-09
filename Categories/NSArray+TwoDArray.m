@@ -23,4 +23,15 @@
     return [NSArray arrayWithArray:tempArr];
 }
 
++ (intArr)convert2DNSArray:(NSArray *)array{
+    static int tempArr[9][9];
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            NSNumber * number = array[i][j];
+            int intValue = [number intValue];
+            tempArr[i][j] = intValue;
+        }
+    }
+    return tempArr;
+}
 @end

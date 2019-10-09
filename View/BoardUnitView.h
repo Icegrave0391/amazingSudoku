@@ -13,18 +13,23 @@ typedef NS_ENUM(NSInteger, UnitStatus) {
     UnitStatusInitial = 0,
     UnitStatusNormal,
     UnitStatusWrong,
-    UnitStatusSatisfied
+    UnitStatusSatisfied,
+    UnitStatusSelected
 };
 @interface BoardUnitView : UIImageView
 
 @property(nonatomic, assign)UnitStatus unitStatus;
+@property(nonatomic, assign)UnitStatus lastStatus; //save last status (unInitial)
 @property(nonatomic, assign)BOOL couldModified;
 //UI
 @property(nonatomic, strong)UIImageView * backView;
 @property(nonatomic, strong)UILabel * numLabel;
 //model
 @property(nonatomic, strong)NSNumber * unitNumber;
-- (instancetype)initWithSudokuNumber:(NSNumber *)number;
+//from 0 to 8
+@property(nonatomic, assign)NSInteger row;
+@property(nonatomic, assign)NSInteger column;
+- (instancetype)init;
 @end
 
 NS_ASSUME_NONNULL_END
