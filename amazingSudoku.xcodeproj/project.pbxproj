@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		085869FB234E0ABC00C1F824 /* BoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 085869FA234E0ABC00C1F824 /* BoardView.m */; };
 		0876304E234C7964009F2D8F /* BoardUnitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0876304D234C7964009F2D8F /* BoardUnitView.m */; };
 		08763051234C81CA009F2D8F /* PlayGroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08763050234C81CA009F2D8F /* PlayGroundViewController.m */; };
 		088866B3233B45CF00314201 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088866B2233B45CF00314201 /* HomeViewController.m */; };
@@ -42,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		085869F9234E0ABC00C1F824 /* BoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardView.h; sourceTree = "<group>"; };
+		085869FA234E0ABC00C1F824 /* BoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoardView.m; sourceTree = "<group>"; };
 		0876304C234C7964009F2D8F /* BoardUnitView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardUnitView.h; sourceTree = "<group>"; };
 		0876304D234C7964009F2D8F /* BoardUnitView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoardUnitView.m; sourceTree = "<group>"; };
 		0876304F234C81CA009F2D8F /* PlayGroundViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayGroundViewController.h; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 			children = (
 				0876304C234C7964009F2D8F /* BoardUnitView.h */,
 				0876304D234C7964009F2D8F /* BoardUnitView.m */,
+				085869F9234E0ABC00C1F824 /* BoardView.h */,
+				085869FA234E0ABC00C1F824 /* BoardView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -144,12 +149,12 @@
 		08D37ADC233A148300293715 = {
 			isa = PBXGroup;
 			children = (
+				08D37AE7233A148300293715 /* amazingSudoku */,
 				0876304B234C791D009F2D8F /* View */,
 				088866B4233B45D500314201 /* Controller */,
 				089461F8233B1551008F14B8 /* Categories */,
 				089461F4233A3EEF008F14B8 /* Utils */,
 				08D37B1D233A14B500293715 /* Model */,
-				08D37AE7233A148300293715 /* amazingSudoku */,
 				08D37B00233A148500293715 /* amazingSudokuTests */,
 				08D37B0B233A148500293715 /* amazingSudokuUITests */,
 				08D37AE6233A148300293715 /* Products */,
@@ -387,6 +392,7 @@
 				211F642C234C841C000B3C33 /* MapSolver.c in Sources */,
 				0876304E234C7964009F2D8F /* BoardUnitView.m in Sources */,
 				088866B3233B45CF00314201 /* HomeViewController.m in Sources */,
+				085869FB234E0ABC00C1F824 /* BoardView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

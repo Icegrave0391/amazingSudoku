@@ -28,7 +28,9 @@
     [homeVC.tabBarItem setTitleTextAttributes:@{
                                                 NSForegroundColorAttributeName:[UIColor colorWithRed:0.76 green:0.22 blue:0.47 alpha:1.0]
                                                 } forState:UIControlStateSelected];
-    [barVC addChildViewController:homeVC];
+    //navigation
+    UINavigationController * navVC = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    [barVC addChildViewController:navVC];
     UIViewController * vc = [[UIViewController alloc] init];
     vc.tabBarItem.title = @"排行榜";
     vc.tabBarItem.image = [UIImage imageNamed:@"rank"];

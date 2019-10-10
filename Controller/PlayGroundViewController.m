@@ -8,10 +8,14 @@
 
 #import "PlayGroundViewController.h"
 #import "BoardUnitView.h"
+#import <Masonry.h>
+#import "MapSolver.h"
+#import "NSArray+TwoDArray.h"
 
 @interface PlayGroundViewController ()
 @property(nonatomic, strong)NSMutableArray * boardUnitArr;
 @property(nonatomic, strong)BoardUnitView * selectedCell;
+@property(nonatomic, strong)NSArray <UIImageView *> * inputArr;
 @end
 
 @implementation PlayGroundViewController
@@ -20,9 +24,11 @@
     self = [super init];
     if(self){
         self.sudoku = [[Sudoku alloc] initWithLevel:level];
-        NSLog(@"%@", self.sudoku.mapArr);
+//        NSLog(@"%@", self.sudoku.mapArr);
         //init board unit arr
         [self initBoardUnitArr];
+        //init input arr
+        [self initInputArr];
     }
     return self;
 }
@@ -31,14 +37,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //test
-    self.view.backgroundColor = UIColor.whiteColor;
-    NSLog(@"sudokuARR : %@",self.sudoku.mapArr);
-    for(int i = 0; i < 9; i++){
-        for(int j = 0; j < 9; j++){
-            BoardUnitView * view = self.boardUnitArr[i][j];
-            printf("row:%ld col:%ld status:%ld number:%ld\n",(long)view.row, (long)view.column, (long)view.unitStatus, (long)[view.unitNumber integerValue]);
-        }printf("\n");
-    }
+//    self.view.backgroundColor = UIColor.whiteColor;
+//    NSLog(@"sudokuARR : %@",self.sudoku.mapArr);
+//    for(int i = 0; i < 9; i++){
+//        for(int j = 0; j < 9; j++){
+//            BoardUnitView * view = self.boardUnitArr[i][j];
+//            printf("row:%ld col:%ld status:%ld number:%ld\n",(long)view.row, (long)view.column, (long)view.unitStatus, (long)[view.unitNumber integerValue]);
+//        }printf("\n");
+//    }
     //Set UI
     [self setUpUI];
 }
@@ -55,6 +61,7 @@
             if([number integerValue]){
                 unitView.unitStatus = UnitStatusInitial;
                 unitView.unitNumber = [NSNumber numberWithInteger:[number integerValue]];
+                [unitView setInitialImageWithNumber:unitView.unitNumber];
             }
             else{
                 unitView.unitStatus = UnitStatusNormal;
@@ -73,30 +80,102 @@
     }
 }
 
-//- (NSMutableArray *)setBoardArrWithCurrentSudoku:(Sudoku *)sudoku{
-//    NSMutableArray * tempArr = [NSMutableArray array];
-//    for(int i = 0 ; i < 9 ; i++){
-//        NSMutableArray * tempArr2D = [NSMutableArray array];
-//        for(int j = 0 ; j < 9 ; j++){
-////            BoardUnitView * unitView = [[BoardUnitView alloc] initWithSudokuNumber:sudoku.currentSolArr[i][j]];
-////            [tempArr2D addObject:unitView];
-//        }
-//        [tempArr addObject:tempArr2D];
-//    }
-//    return tempArr;
-//}
-#pragma mark - controller UI
-- (void)setUpUI{
-    
+- (void)initInputArr{
+    //9 : clear,  10 : 0,  11 : new
+    NSMutableArray * tempArr = [NSMutableArray array];
+    for(int i = 0; i < 12; i++){
+        UIImageView * imgView = [[UIImageView alloc] init];
+        imgView.userInteractionEnabled = YES;
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inputClicked:)];
+        [imgView addGestureRecognizer:tap];
+        [tempArr addObject:imgView];
+    }
+    self.inputArr = [NSArray arrayWithArray:tempArr];
 }
 
+#pragma mark - controller UI
+const float kCellViewWidth = 40.f;
+const float kCellViewHeight = 40.f;
+const float kCellLeading = 29.f;
+const float kCellTop = 227.f;
+const float kCell3Spacing = 2.f;
+
+const float kInputCellWidth = 138.f;
+const float kInputCellHeight = 53.f;
+- (void)setUpUI{
+    //bg
+    UIImageView * bgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+    bgView.frame = self.view.bounds;
+    [self.view addSubview:bgView];
+    //top layer
+    UIImageView * topLayer = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_topLayer"]];
+    [self.view addSubview:topLayer];
+    [topLayer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.height.mas_equalTo(@85);
+        make.width.mas_equalTo(self.view.mas_width);
+        make.centerX.equalTo(self.view.mas_centerX);
+    }];
+    //navigation
+    UIButton * nav = [[UIButton alloc] initWithFrame:CGRectMake(30, 44, 17, 30)];
+    [self.view addSubview:nav];
+    [nav setImage:[UIImage imageNamed:@"nav"] forState:UIControlStateNormal];
+    [nav addTarget:self action:@selector(navReturn) forControlEvents:UIControlEventTouchUpInside];
+    //cells
+    for(int i = 0; i < 9; i++){
+        for (int j = 0; j < 9; j++) {
+            int col3Num = j / 3;
+            int row3Num = i / 3;
+            BoardUnitView * unitView = (BoardUnitView * )self.boardUnitArr[i][j];
+            [self.view addSubview:unitView];
+            [unitView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.view.mas_left).with.offset(kCellLeading + j * kCellViewWidth + col3Num * kCell3Spacing);
+                make.height.width.mas_equalTo(kCellViewWidth);
+                make.top.equalTo(self.view.mas_top).with.offset(kCellTop + i * kCellViewHeight + row3Num * kCell3Spacing);
+            }];
+        }
+    }
+    //inputs
+    for(int i = 0; i < 12; i++){
+        UIImageView * imgView = self.inputArr[i];
+        [self.view addSubview:imgView];
+        if(i < 9){
+            imgView.image = [UIImage imageNamed:[NSString stringWithFormat:@"input_%d",i+1]];
+        }
+        else if(i == 9){
+            imgView.image = [UIImage imageNamed:@"input_clear"];
+        }
+        else if(i == 10){
+            imgView.image = [UIImage imageNamed:@"input_0"];
+        }
+        else{
+            imgView.image = [UIImage imageNamed:@"input_new"];
+        }
+        int rownum = (i+1) / 3;
+        if(!((i+1)%3)){
+            rownum -= 1;
+        }
+        int colnum = i % 3;
+        [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top).with.offset(600 + rownum * kInputCellHeight);
+            make.left.equalTo(self.view.mas_left).with.offset(colnum * kInputCellWidth);
+            make.width.mas_equalTo(kInputCellWidth);
+            make.height.mas_equalTo(kInputCellHeight);
+        }];
+    }
+}
+
+- (void)navReturn{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 #pragma mark - click
 - (void)cellClicked:(UITapGestureRecognizer *)tap{
     BoardUnitView * sender = (BoardUnitView *)tap.view;
     if(sender.unitStatus != UnitStatusInitial){
         if(self.selectedCell){
             self.selectedCell.unitStatus = self.selectedCell.lastStatus;      //给予上一个状态
-            self.selectedCell.lastStatus = UnitStatusSelected;
+//            self.selectedCell.lastStatus = UnitStatusSelected;
+            self.selectedCell.isSelected = NO;
             self.selectedCell = nil;
         }
         self.selectedCell = sender;
@@ -105,7 +184,56 @@
 
 - (void)setSelectedCell:(BoardUnitView *)selectedCell{
     _selectedCell = selectedCell;
-    selectedCell.lastStatus = selectedCell.unitStatus;
-    selectedCell.unitStatus = UnitStatusSelected;
+    _selectedCell.isSelected = YES;
+//    selectedCell.lastStatus = selectedCell.unitStatus;
+//    selectedCell.unitStatus = UnitStatusSelected;
+}
+
+- (void)inputClicked:(UIGestureRecognizer *)tap{
+    UIImageView * imgView = (UIImageView * )tap.view;
+    NSInteger index = [self.inputArr indexOfObject:imgView];
+    if(index < 9 || index == 10){
+        if(self.selectedCell){
+            NSInteger intNum = index < 9 ? index+1 : 0;
+            self.selectedCell.unitNumber = [NSNumber numberWithInteger:intNum];
+            [self updateCurrentSudokuWithCell:self.selectedCell];
+            if([self judgeLegitimacyWithCell:self.selectedCell]){
+                
+            }
+            else{
+                self.selectedCell.unitStatus = UnitStatusWrong;
+            }
+        }
+    }
+}
+
+#pragma mark - update
+- (void)updateCurrentSudokuWithCell:(BoardUnitView *)unitView{
+    NSNumber * number = unitView.unitNumber;
+    NSInteger row = unitView.row;
+    NSInteger col = unitView.column;
+    self.sudoku.currentSolArr[row][col] = number;
+}
+
+#pragma mark - judge
+- (BOOL)judgeLegitimacyWithCell:(BoardUnitView *)unitView{
+    int intNum = [unitView.unitNumber intValue];
+    int row = [[NSNumber numberWithInteger:unitView.row] intValue];
+    int col = [[NSNumber numberWithInteger:unitView.column] intValue];
+    intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
+    if(judge_with_col(arr, row, col, intNum) && judge_with_row(arr, row, col, intNum) && judge_with_mat(arr, row, col, intNum)){
+        return YES;
+    }
+    return NO;
+}
+
+- (void)updateOKCellsWithCell:(BoardUnitView *)unitView{
+//    int intNum = [unitView.unitNumber intValue];
+    int row = [[NSNumber numberWithInteger:unitView.row] intValue];
+    int col = [[NSNumber numberWithInteger:unitView.column] intValue];
+    intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
+    if(ok_with_row(arr, row, col)){
+        
+    }
 }
 @end

@@ -95,8 +95,10 @@ const float kCellWidth = 367.f;
     NSMutableArray * tempArr = [NSMutableArray array];
     for(int i = 0; i < 4; i++){
         UIButton * btn = [[UIButton alloc] init];
+        btn.tag = i+1;
         [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"card%d",i+1]] forState:UIControlStateNormal];
-        btn.imageView.clipsToBounds = YES;
+//        btn.imageView.clipsToBounds = YES;
+        [btn addTarget:self action:@selector(clickedButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:btn];
         [tempArr addObject:btn];
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -107,5 +109,28 @@ const float kCellWidth = 367.f;
         }];
     }
     self.btnArr = [NSArray arrayWithArray:tempArr];
+}
+
+- (void)clickedButton:(UIButton *)sender{
+    SudokuLevel level;
+    switch (sender.tag) {
+        case 1:
+            level = level_2;
+            break;
+        case 2:
+            level = level_3;
+            break;
+        case 3:
+            level = level_4;
+            break;
+        case 4:
+            level = level_5;
+        default:
+            level = level_1;
+            break;
+    }
+    PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level];
+    [self.navigationController pushViewController:playVC animated:YES];
+//    [self presentViewController:playVC animated:YES completion:nil];
 }
 @end
