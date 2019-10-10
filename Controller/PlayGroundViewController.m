@@ -199,17 +199,21 @@ const float kInputCellHeight = 53.f;
             self.selectedCell.unitNumber = [NSNumber numberWithInteger:intNum];
             [self updateCurrentSudokuWithCell:self.selectedCell];
             
+            intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
             //rejudge satisfy
             if(self.selectedCell.rowSatisfied){
-                [self updateSatisfiedRow:self.selectedCell.row];
+                [self updateSatisfiedRow:self.selectedCell.row
+                                  intArr:arr];
             }
             if(self.selectedCell.colSatisfied){
-                [self updateSatisfiedCol:self.selectedCell.column];
+                [self updateSatisfiedCol:self.selectedCell.column
+                                  intArr:arr];
             }
             if(self.selectedCell.matSatisfied){
                 NSInteger row_start = self.selectedCell.row / 3 * 3;
                 NSInteger col_start = self.selectedCell.column / 3 * 3;
-                [self updateSatisfiedMatWithStartRow:row_start andStartCol:col_start];
+                [self updateSatisfiedMatWithStartRow:row_start andStartCol:col_start
+                                              intArr:arr];
             }
             
             //fill cell
@@ -221,10 +225,13 @@ const float kInputCellHeight = 53.f;
             }
             
             //rejudge wrong
-            [self updateRowWrongCellsWithRow:self.selectedCell.row];
-            [self updateColWrongCellsWithCol:self.selectedCell.column];
+            [self updateRowWrongCellsWithRow:self.selectedCell.row
+                                      intArr:arr];
+            [self updateColWrongCellsWithCol:self.selectedCell.column
+                                      intArr:arr];
             [self updateMatWrongCellsWithStartRow:self.selectedCell.row / 3 * 3
-                                      andStartCol:self.selectedCell.column / 3 * 3];
+                                      andStartCol:self.selectedCell.column / 3 * 3
+                                           intArr:arr];
         }
     }
 }
@@ -330,27 +337,47 @@ const float kInputCellHeight = 53.f;
     return YES;
 }
 
-- (void)updateRowWrongCellsWithRow:(NSInteger)row{
+- (void)updateRowWrongCellsWithRow:(NSInteger)row intArr:(intArr)arr{
+    for(int i = 0; i < 9; i++){
+        BoardUnitView * unitView = self.boardUnitArr[row][i];
+        if(unitView.unitStatus == UnitStatusWrong){
+            if([self judgeLegitimacyWithCell:unitView])unitView.unitStatus = UnitStatusNormal;
+        }
+    }
+}
+
+- (void)updateColWrongCellsWithCol:(NSInteger)col intArr:(intArr)arr{
+    for(int i = 0; i > 9; i++){
+        BoardUnitView * unitView = self.boardUnitArr[i][col];
+        if(unitView.unitStatus == UnitStatusWrong){
+            if([self judgeLegitimacyWithCell:unitView])unitView.unitStatus = UnitStatusNormal;
+        }
+    }
+}
+
+- (void)updateMatWrongCellsWithStartRow:(NSInteger)row_start andStartCol:(NSInteger)col_start intArr:(intArr)arr{
+    int row_end = (int)row_start + 3;
+    int col_end = (int)col_start + 3;
+    for(int row = (int)row_start; row < row_end; row++){
+        for(int col = (int)col_start; col < col_end; col++){
+            BoardUnitView * unitView = self.boardUnitArr[row][col];
+            if(unitView.unitStatus == UnitStatusWrong){
+                if([self judgeLegitimacyWithCell:unitView])unitView.unitStatus = UnitStatusNormal;
+            }
+        }
+    }
     
 }
 
-- (void)updateColWrongCellsWithCol:(NSInteger)col{
+- (void)updateSatisfiedRow:(NSInteger)row intArr:(intArr)arr{
     
 }
 
-- (void)updateMatWrongCellsWithStartRow:(NSInteger)row andStartCol:(NSInteger)col{
+- (void)updateSatisfiedCol:(NSInteger)col intArr:(intArr)arr{
     
 }
 
-- (void)updateSatisfiedRow:(NSInteger)row{
-    
-}
-
-- (void)updateSatisfiedCol:(NSInteger)col{
-    
-}
-
-- (void)updateSatisfiedMatWithStartRow:(NSInteger)row andStartCol:(NSInteger)col{
+- (void)updateSatisfiedMatWithStartRow:(NSInteger)row andStartCol:(NSInteger)col intArr:(intArr)arr{
     
 }
 @end
