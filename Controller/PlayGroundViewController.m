@@ -173,7 +173,7 @@ const float kInputCellHeight = 53.f;
     BoardUnitView * sender = (BoardUnitView *)tap.view;
     if(sender.unitStatus != UnitStatusInitial){
         if(self.selectedCell){
-            self.selectedCell.unitStatus = self.selectedCell.lastStatus;      //给予上一个状态
+//            self.selectedCell.unitStatus = self.selectedCell.lastStatus;      //给予上一个状态
 //            self.selectedCell.lastStatus = UnitStatusSelected;
             self.selectedCell.isSelected = NO;
             self.selectedCell = nil;
@@ -198,7 +198,7 @@ const float kInputCellHeight = 53.f;
             self.selectedCell.unitNumber = [NSNumber numberWithInteger:intNum];
             [self updateCurrentSudokuWithCell:self.selectedCell];
             if([self judgeLegitimacyWithCell:self.selectedCell]){
-                
+                [self updateOKCellsWithCell:self.selectedCell];
             }
             else{
                 self.selectedCell.unitStatus = UnitStatusWrong;
@@ -233,7 +233,32 @@ const float kInputCellHeight = 53.f;
     int col = [[NSNumber numberWithInteger:unitView.column] intValue];
     intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
     if(ok_with_row(arr, row, col)){
-        
+        for(int i = 0; i < 9; i++){
+            BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[row][i];
+            unit.unitStatus = UnitStatusSatisfied;
+        }
+    }
+    if(ok_with_col(arr, row, col)){
+        for(int i = 0; i < 9; i++){
+            BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[i][col];
+            unit.unitStatus = UnitStatusSatisfied;
+        }
+    }
+    if(ok_with_mat(arr, row, col)){
+        int row_start = 3 * (row / 3);
+        int row_end = row_start + 3;
+        int col_start = 3 * (col / 3);
+        int col_end = col_start + 3;
+        for(int i = row_start; i < row_end; i++){
+            for (int j = col_start; j < col_end; j++) {
+                BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[i][j];
+                unit.unitStatus = UnitStatusSatisfied;
+            }
+        }
+    }
+    if(!ok_with_mat(arr, row, col) && !ok_with_col(arr, row, col) && !ok_with_row(arr, row, col)){
+        unitView.unitStatus = UnitStatusNormal;
     }
 }
+
 @end
