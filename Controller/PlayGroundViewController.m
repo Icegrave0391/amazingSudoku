@@ -235,13 +235,17 @@ const float kInputCellHeight = 53.f;
     if(ok_with_row(arr, row, col)){
         for(int i = 0; i < 9; i++){
             BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[row][i];
-            unit.unitStatus = UnitStatusSatisfied;
+            if(unit.couldModified){
+                unit.unitStatus = UnitStatusSatisfied;
+            }
         }
     }
     if(ok_with_col(arr, row, col)){
         for(int i = 0; i < 9; i++){
             BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[i][col];
-            unit.unitStatus = UnitStatusSatisfied;
+            if(unit.couldModified){
+                unit.unitStatus = UnitStatusSatisfied;
+            }
         }
     }
     if(ok_with_mat(arr, row, col)){
@@ -252,7 +256,9 @@ const float kInputCellHeight = 53.f;
         for(int i = row_start; i < row_end; i++){
             for (int j = col_start; j < col_end; j++) {
                 BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[i][j];
-                unit.unitStatus = UnitStatusSatisfied;
+                if(unit.couldModified){
+                    unit.unitStatus = UnitStatusSatisfied;
+                }
             }
         }
     }
