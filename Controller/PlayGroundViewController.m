@@ -25,6 +25,12 @@
     if(self){
         self.sudoku = [[Sudoku alloc] initWithLevel:level];
 //        NSLog(@"%@", self.sudoku.mapArr);
+        intArr arr = [NSArray convert2DNSArray:self.sudoku.solArr];
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                printf("%d ",arr[i][j]);
+            }printf("\n");
+        }
         //init board unit arr
         [self initBoardUnitArr];
         //init input arr
@@ -200,6 +206,21 @@ const float kInputCellHeight = 53.f;
             [self updateCurrentSudokuWithCell:self.selectedCell];
             
             intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
+            //fill cell
+            if([self judgeLegitimacyWithCell:self.selectedCell]){
+                [self updateOKCellsWithCell:self.selectedCell];
+            }
+            else{
+                    self.selectedCell.unitStatus = UnitStatusWrong;
+            }
+            //rejudge wrong
+            [self updateRowWrongCellsWithRow:self.selectedCell.row
+                                      intArr:arr];
+            [self updateColWrongCellsWithCol:self.selectedCell.column
+                                      intArr:arr];
+            [self updateMatWrongCellsWithStartRow:self.selectedCell.row / 3 * 3
+                                      andStartCol:self.selectedCell.column / 3 * 3
+                                           intArr:arr];
             //rejudge satisfy
             if(self.selectedCell.rowSatisfied){
                 [self updateSatisfiedRowWithRow:self.selectedCell.row
@@ -212,27 +233,9 @@ const float kInputCellHeight = 53.f;
                                          intArr:arr];
             }
             if(self.selectedCell.matSatisfied){
-//                NSInteger row_start = self.selectedCell.row / 3 * 3;
-//                NSInteger col_start = self.selectedCell.column / 3 * 3;
                 [self updateSatisfiedMatWithRow:self.selectedCell.row
                                          andCol:self.selectedCell.column
                                          intArr:arr];
-            }
-            //rejudge wrong
-            [self updateRowWrongCellsWithRow:self.selectedCell.row
-                                      intArr:arr];
-            [self updateColWrongCellsWithCol:self.selectedCell.column
-                                      intArr:arr];
-            [self updateMatWrongCellsWithStartRow:self.selectedCell.row / 3 * 3
-                                      andStartCol:self.selectedCell.column / 3 * 3
-                                           intArr:arr];
-            
-            //fill cell
-            if([self judgeLegitimacyWithCell:self.selectedCell]){
-                [self updateOKCellsWithCell:self.selectedCell];
-            }
-            else{
-                self.selectedCell.unitStatus = UnitStatusWrong;
             }
         }
     }
@@ -333,7 +336,8 @@ const float kInputCellHeight = 53.f;
     for(int i = row_start; i < row_end; i++){
         for(int j = col_start; j < col_end; j++){
             BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[i][j];
-            if(unit.unitStatus == UnitStatusWrong)return NO;
+            if(unit.unitStatus == UnitStatusWrong)
+                return NO;
         }
     }
     return YES;
@@ -343,7 +347,8 @@ const float kInputCellHeight = 53.f;
     for(int i = 0; i < 9; i++){
         BoardUnitView * unitView = self.boardUnitArr[row][i];
         if(unitView.unitStatus == UnitStatusWrong){
-            if([self judgeLegitimacyWithCell:unitView])unitView.unitStatus = UnitStatusNormal;
+            if([self judgeLegitimacyWithCell:unitView])
+                unitView.unitStatus = UnitStatusNormal;
         }
     }
 }
@@ -352,7 +357,8 @@ const float kInputCellHeight = 53.f;
     for(int i = 0; i > 9; i++){
         BoardUnitView * unitView = self.boardUnitArr[i][col];
         if(unitView.unitStatus == UnitStatusWrong){
-            if([self judgeLegitimacyWithCell:unitView])unitView.unitStatus = UnitStatusNormal;
+            if([self judgeLegitimacyWithCell:unitView])
+                unitView.unitStatus = UnitStatusNormal;
         }
     }
 }
@@ -364,7 +370,8 @@ const float kInputCellHeight = 53.f;
         for(int col = (int)col_start; col < col_end; col++){
             BoardUnitView * unitView = self.boardUnitArr[row][col];
             if(unitView.unitStatus == UnitStatusWrong){
-                if([self judgeLegitimacyWithCell:unitView])unitView.unitStatus = UnitStatusNormal;
+                if([self judgeLegitimacyWithCell:unitView])
+                    unitView.unitStatus = UnitStatusNormal;
             }
         }
     }
@@ -376,7 +383,9 @@ const float kInputCellHeight = 53.f;
         for(int i = 0; i < 9; i++){
             BoardUnitView * unitView = self.boardUnitArr[row][i];
             unitView.rowSatisfied = NO;
-            unitView.unitStatus = UnitStatusNormal;
+            if(!unitView.colSatisfied && !unitView.matSatisfied && unitView.unitStatus != UnitStatusWrong){
+                unitView.unitStatus = UnitStatusNormal;
+            }
         }
     }
 }
@@ -386,7 +395,9 @@ const float kInputCellHeight = 53.f;
         for(int i = 0; i < 9; i++){
             BoardUnitView * unitView = self.boardUnitArr[i][col];
             unitView.rowSatisfied = NO;
-            unitView.unitStatus = UnitStatusNormal;
+            if(!unitView.rowSatisfied && !unitView.matSatisfied && unitView.unitStatus != UnitStatusWrong){
+                unitView.unitStatus = UnitStatusNormal;
+            }
         }
     }
 }
@@ -401,7 +412,9 @@ const float kInputCellHeight = 53.f;
             for (int col = col_start; col < col_end; col++) {
                 BoardUnitView * unitView = self.boardUnitArr[row][col];
                 unitView.matSatisfied = NO;
-                unitView.unitStatus = UnitStatusNormal;
+                if(!unitView.rowSatisfied && !unitView.colSatisfied && unitView.unitStatus != UnitStatusWrong){
+                    unitView.unitStatus = UnitStatusNormal;
+                }
             }
         }
     }

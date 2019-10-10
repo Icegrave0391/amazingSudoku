@@ -60,7 +60,6 @@
 
 -(void)setUnitNumber:(NSNumber *)unitNumber{
     _unitNumber = unitNumber;
-    //0
 }
 
 - (void)setIsSelected:(BOOL)isSelected{
