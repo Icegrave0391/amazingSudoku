@@ -23,6 +23,10 @@ typedef NS_ENUM(NSInteger, UnitStatus) {
 
 @property(nonatomic, assign)BOOL isSelected;
 @property(nonatomic, assign)BOOL couldModified;
+//status for undo & modify
+@property(nonatomic, assign)BOOL colSatisfied;
+@property(nonatomic, assign)BOOL rowSatisfied;
+@property(nonatomic, assign)BOOL matSatisfied;
 //UI
 @property(nonatomic, strong)UIImageView * selectMaskView;
 //@property(nonatomic, strong)UILabel * numLabel;

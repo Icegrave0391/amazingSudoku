@@ -195,14 +195,36 @@ const float kInputCellHeight = 53.f;
     if(index < 9 || index == 10){
         if(self.selectedCell){
             NSInteger intNum = index < 9 ? index+1 : 0;
+            self.selectedCell.unitStatus = UnitStatusNormal;
             self.selectedCell.unitNumber = [NSNumber numberWithInteger:intNum];
             [self updateCurrentSudokuWithCell:self.selectedCell];
+            
+            //rejudge satisfy
+            if(self.selectedCell.rowSatisfied){
+                [self updateSatisfiedRow:self.selectedCell.row];
+            }
+            if(self.selectedCell.colSatisfied){
+                [self updateSatisfiedCol:self.selectedCell.column];
+            }
+            if(self.selectedCell.matSatisfied){
+                NSInteger row_start = self.selectedCell.row / 3 * 3;
+                NSInteger col_start = self.selectedCell.column / 3 * 3;
+                [self updateSatisfiedMatWithStartRow:row_start andStartCol:col_start];
+            }
+            
+            //fill cell
             if([self judgeLegitimacyWithCell:self.selectedCell]){
                 [self updateOKCellsWithCell:self.selectedCell];
             }
             else{
                 self.selectedCell.unitStatus = UnitStatusWrong;
             }
+            
+            //rejudge wrong
+            [self updateRowWrongCellsWithRow:self.selectedCell.row];
+            [self updateColWrongCellsWithCol:self.selectedCell.column];
+            [self updateMatWrongCellsWithStartRow:self.selectedCell.row / 3 * 3
+                                      andStartCol:self.selectedCell.column / 3 * 3];
         }
     }
 }
@@ -232,23 +254,25 @@ const float kInputCellHeight = 53.f;
     int row = [[NSNumber numberWithInteger:unitView.row] intValue];
     int col = [[NSNumber numberWithInteger:unitView.column] intValue];
     intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
-    if(ok_with_row(arr, row, col)){
+    if(ok_with_row(arr, row, col) && [self judgeRowLegitimacyWithCell:unitView]){
         for(int i = 0; i < 9; i++){
             BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[row][i];
             if(unit.couldModified){
+                unit.rowSatisfied = YES;
                 unit.unitStatus = UnitStatusSatisfied;
             }
         }
     }
-    if(ok_with_col(arr, row, col)){
+    if(ok_with_col(arr, row, col) && [self judgeColLegitimacyWithCell:unitView]){
         for(int i = 0; i < 9; i++){
             BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[i][col];
             if(unit.couldModified){
+                unit.colSatisfied = YES;
                 unit.unitStatus = UnitStatusSatisfied;
             }
         }
     }
-    if(ok_with_mat(arr, row, col)){
+    if(ok_with_mat(arr, row, col) && [self judgeMatLegitimacyWithCell:unitView]){
         int row_start = 3 * (row / 3);
         int row_end = row_start + 3;
         int col_start = 3 * (col / 3);
@@ -257,14 +281,76 @@ const float kInputCellHeight = 53.f;
             for (int j = col_start; j < col_end; j++) {
                 BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[i][j];
                 if(unit.couldModified){
+                    unit.matSatisfied = YES;
                     unit.unitStatus = UnitStatusSatisfied;
                 }
             }
         }
     }
-    if(!ok_with_mat(arr, row, col) && !ok_with_col(arr, row, col) && !ok_with_row(arr, row, col)){
-        unitView.unitStatus = UnitStatusNormal;
+    BOOL notSaf = !ok_with_mat(arr, row, col) && !ok_with_col(arr, row, col) && !ok_with_row(arr, row, col);
+    BOOL conflicSaf = (ok_with_mat(arr, row, col) && ![self judgeMatLegitimacyWithCell:unitView]) || (ok_with_col(arr, row, col) && ![self judgeColLegitimacyWithCell:unitView]) || (ok_with_row(arr, row, col) && ![self judgeRowLegitimacyWithCell:unitView]);
+    if(notSaf || conflicSaf){
+        if(unitView.couldModified){
+            unitView.unitStatus = UnitStatusNormal;
+        }
     }
 }
 
+- (BOOL)judgeRowLegitimacyWithCell:(BoardUnitView *)unitView{
+    NSInteger row = unitView.row;
+    for(int i = 0; i < 9; i++){
+        BoardUnitView * cell = self.boardUnitArr[row][i];
+        if(cell.unitStatus == UnitStatusWrong)return NO;
+    }
+    return YES;
+}
+
+- (BOOL)judgeColLegitimacyWithCell:(BoardUnitView *)unitView{
+    NSInteger col = unitView.column;
+    for(int i = 0; i < 9; i++){
+        BoardUnitView * cell = self.boardUnitArr[i][col];
+        if(cell.unitStatus == UnitStatusWrong)return NO;
+    }
+    return YES;
+}
+
+- (BOOL)judgeMatLegitimacyWithCell:(BoardUnitView *)unitView{
+    int row = [[NSNumber numberWithInteger:unitView.row] intValue];
+    int col = [[NSNumber numberWithInteger:unitView.column] intValue];
+    int row_start = 3 * (row / 3);
+    int row_end = row_start + 3;
+    int col_start = 3 * (col / 3);
+    int col_end = col_start + 3;
+    for(int i = row_start; i < row_end; i++){
+        for(int j = col_start; j < col_end; j++){
+            BoardUnitView * unit = (BoardUnitView *)self.boardUnitArr[i][j];
+            if(unit.unitStatus == UnitStatusWrong)return NO;
+        }
+    }
+    return YES;
+}
+
+- (void)updateRowWrongCellsWithRow:(NSInteger)row{
+    
+}
+
+- (void)updateColWrongCellsWithCol:(NSInteger)col{
+    
+}
+
+- (void)updateMatWrongCellsWithStartRow:(NSInteger)row andStartCol:(NSInteger)col{
+    
+}
+
+- (void)updateSatisfiedRow:(NSInteger)row{
+    
+}
+
+- (void)updateSatisfiedCol:(NSInteger)col{
+    
+}
+
+- (void)updateSatisfiedMatWithStartRow:(NSInteger)row andStartCol:(NSInteger)col{
+    
+}
 @end
