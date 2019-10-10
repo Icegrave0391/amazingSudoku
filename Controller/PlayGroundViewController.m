@@ -218,15 +218,6 @@ const float kInputCellHeight = 53.f;
                                          andCol:self.selectedCell.column
                                          intArr:arr];
             }
-            
-            //fill cell
-            if([self judgeLegitimacyWithCell:self.selectedCell]){
-                [self updateOKCellsWithCell:self.selectedCell];
-            }
-            else{
-                self.selectedCell.unitStatus = UnitStatusWrong;
-            }
-            
             //rejudge wrong
             [self updateRowWrongCellsWithRow:self.selectedCell.row
                                       intArr:arr];
@@ -235,6 +226,14 @@ const float kInputCellHeight = 53.f;
             [self updateMatWrongCellsWithStartRow:self.selectedCell.row / 3 * 3
                                       andStartCol:self.selectedCell.column / 3 * 3
                                            intArr:arr];
+            
+            //fill cell
+            if([self judgeLegitimacyWithCell:self.selectedCell]){
+                [self updateOKCellsWithCell:self.selectedCell];
+            }
+            else{
+                self.selectedCell.unitStatus = UnitStatusWrong;
+            }
         }
     }
 }
