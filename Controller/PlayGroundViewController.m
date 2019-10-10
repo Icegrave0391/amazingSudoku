@@ -202,18 +202,21 @@ const float kInputCellHeight = 53.f;
             intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
             //rejudge satisfy
             if(self.selectedCell.rowSatisfied){
-                [self updateSatisfiedRow:self.selectedCell.row
-                                  intArr:arr];
+                [self updateSatisfiedRowWithRow:self.selectedCell.row
+                                         AndCol:self.selectedCell.column
+                                         intArr:arr];
             }
             if(self.selectedCell.colSatisfied){
-                [self updateSatisfiedCol:self.selectedCell.column
-                                  intArr:arr];
+                [self updateSatisfiedColWithRow:self.selectedCell.row
+                                         AndCol:self.selectedCell.column
+                                         intArr:arr];
             }
             if(self.selectedCell.matSatisfied){
-                NSInteger row_start = self.selectedCell.row / 3 * 3;
-                NSInteger col_start = self.selectedCell.column / 3 * 3;
-                [self updateSatisfiedMatWithStartRow:row_start andStartCol:col_start
-                                              intArr:arr];
+//                NSInteger row_start = self.selectedCell.row / 3 * 3;
+//                NSInteger col_start = self.selectedCell.column / 3 * 3;
+                [self updateSatisfiedMatWithRow:self.selectedCell.row
+                                         andCol:self.selectedCell.column
+                                         intArr:arr];
             }
             
             //fill cell
@@ -369,15 +372,39 @@ const float kInputCellHeight = 53.f;
     
 }
 
-- (void)updateSatisfiedRow:(NSInteger)row intArr:(intArr)arr{
-    
+- (void)updateSatisfiedRowWithRow:(NSInteger)row AndCol:(NSInteger)col intArr:(intArr)arr{
+    if(!ok_with_row(arr, (int)row, (int)col)){
+        for(int i = 0; i < 9; i++){
+            BoardUnitView * unitView = self.boardUnitArr[row][i];
+            unitView.rowSatisfied = NO;
+            unitView.unitStatus = UnitStatusNormal;
+        }
+    }
 }
 
-- (void)updateSatisfiedCol:(NSInteger)col intArr:(intArr)arr{
-    
+- (void)updateSatisfiedColWithRow:(NSInteger)row AndCol:(NSInteger)col intArr:(intArr)arr{
+    if(!ok_with_col(arr, (int)row, (int)col)){
+        for(int i = 0; i < 9; i++){
+            BoardUnitView * unitView = self.boardUnitArr[i][col];
+            unitView.rowSatisfied = NO;
+            unitView.unitStatus = UnitStatusNormal;
+        }
+    }
 }
 
-- (void)updateSatisfiedMatWithStartRow:(NSInteger)row andStartCol:(NSInteger)col intArr:(intArr)arr{
-    
+- (void)updateSatisfiedMatWithRow:(NSInteger)row andCol:(NSInteger)col intArr:(intArr)arr{
+    if(!ok_with_mat(arr, (int)row, (int)col)){
+        int row_start = (int)row / 3 * 3;
+        int col_start = (int)col / 3 * 3;
+        int row_end = row_start + 3;
+        int col_end = col_start + 3;
+        for (int row = row_start; row < row_end; row++) {
+            for (int col = col_start; col < col_end; col++) {
+                BoardUnitView * unitView = self.boardUnitArr[row][col];
+                unitView.matSatisfied = NO;
+                unitView.unitStatus = UnitStatusNormal;
+            }
+        }
+    }
 }
 @end

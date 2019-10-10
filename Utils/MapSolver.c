@@ -10,6 +10,7 @@
 
 
 int judge_with_row(int array[][9], int i, int j, int num){
+    if(!num)return 1;
     int flag = 1;
     for(int k = 0; k < 9; k++){
         if(k == j) continue;
@@ -22,6 +23,7 @@ int judge_with_row(int array[][9], int i, int j, int num){
 }
 
 int judge_with_col(int array[][9], int i, int j, int num){
+    if(!num)return 1;
     int flag = 1;
     for(int k = 0; k < 9; k++){
         if(k == i) continue;
@@ -34,6 +36,7 @@ int judge_with_col(int array[][9], int i, int j, int num){
 }
 
 int judge_with_mat(int array[][9], int i, int j, int num){
+    if(!num)return 1;
     int flag = 1, mat_row = i/3*3, mat_col = j/3*3;
     for(int a = 0; a < 3; a++){
         for(int b = 0; b < 3; b++){
