@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "HomeViewController.h"
+#import "RankViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -31,7 +32,8 @@
     //navigation
     UINavigationController * navVC = [[UINavigationController alloc] initWithRootViewController:homeVC];
     [barVC addChildViewController:navVC];
-    UIViewController * vc = [[UIViewController alloc] init];
+//    UIViewController * vc = [[UIViewController alloc] init];
+    RankViewController * vc = [[RankViewController alloc] init];
     vc.tabBarItem.title = @"排行榜";
     vc.tabBarItem.image = [UIImage imageNamed:@"rank"];
     UIImage * rankSel = [[UIImage imageNamed:@"rank_sel"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

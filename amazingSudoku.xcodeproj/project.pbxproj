@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		085869FB234E0ABC00C1F824 /* BoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 085869FA234E0ABC00C1F824 /* BoardView.m */; };
+		085869FE23501E5C00C1F824 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 085869FD23501E5C00C1F824 /* RankViewController.m */; };
+		08586A01235021F400C1F824 /* RankSelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08586A00235021F400C1F824 /* RankSelButton.m */; };
 		0876304E234C7964009F2D8F /* BoardUnitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0876304D234C7964009F2D8F /* BoardUnitView.m */; };
 		08763051234C81CA009F2D8F /* PlayGroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08763050234C81CA009F2D8F /* PlayGroundViewController.m */; };
 		088866B3233B45CF00314201 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088866B2233B45CF00314201 /* HomeViewController.m */; };
@@ -45,6 +47,10 @@
 /* Begin PBXFileReference section */
 		085869F9234E0ABC00C1F824 /* BoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardView.h; sourceTree = "<group>"; };
 		085869FA234E0ABC00C1F824 /* BoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoardView.m; sourceTree = "<group>"; };
+		085869FC23501E5C00C1F824 /* RankViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
+		085869FD23501E5C00C1F824 /* RankViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RankViewController.m; sourceTree = "<group>"; };
+		085869FF235021F400C1F824 /* RankSelButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RankSelButton.h; sourceTree = "<group>"; };
+		08586A00235021F400C1F824 /* RankSelButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RankSelButton.m; sourceTree = "<group>"; };
 		0876304C234C7964009F2D8F /* BoardUnitView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardUnitView.h; sourceTree = "<group>"; };
 		0876304D234C7964009F2D8F /* BoardUnitView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoardUnitView.m; sourceTree = "<group>"; };
 		0876304F234C81CA009F2D8F /* PlayGroundViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayGroundViewController.h; sourceTree = "<group>"; };
@@ -111,6 +117,8 @@
 				0876304D234C7964009F2D8F /* BoardUnitView.m */,
 				085869F9234E0ABC00C1F824 /* BoardView.h */,
 				085869FA234E0ABC00C1F824 /* BoardView.m */,
+				085869FF235021F400C1F824 /* RankSelButton.h */,
+				08586A00235021F400C1F824 /* RankSelButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -122,6 +130,8 @@
 				088866B2233B45CF00314201 /* HomeViewController.m */,
 				0876304F234C81CA009F2D8F /* PlayGroundViewController.h */,
 				08763050234C81CA009F2D8F /* PlayGroundViewController.m */,
+				085869FC23501E5C00C1F824 /* RankViewController.h */,
+				085869FD23501E5C00C1F824 /* RankViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -389,7 +399,9 @@
 				089461F3233A1A5D008F14B8 /* Sudoku.m in Sources */,
 				089461F7233A3FE5008F14B8 /* MapCreater.c in Sources */,
 				08D37AEA233A148300293715 /* AppDelegate.m in Sources */,
+				08586A01235021F400C1F824 /* RankSelButton.m in Sources */,
 				211F642C234C841C000B3C33 /* MapSolver.c in Sources */,
+				085869FE23501E5C00C1F824 /* RankViewController.m in Sources */,
 				0876304E234C7964009F2D8F /* BoardUnitView.m in Sources */,
 				088866B3233B45CF00314201 /* HomeViewController.m in Sources */,
 				085869FB234E0ABC00C1F824 /* BoardView.m in Sources */,

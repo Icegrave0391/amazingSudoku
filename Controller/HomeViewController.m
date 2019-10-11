@@ -126,7 +126,7 @@ const float kCellWidth = 367.f;
         case 4:
             level = level_5;
         default:
-            level = level_1;
+            level = level_5;
             break;
     }
     PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level];

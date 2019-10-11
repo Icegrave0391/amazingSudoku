@@ -16,6 +16,7 @@
 @property(nonatomic, strong)NSMutableArray * boardUnitArr;
 @property(nonatomic, strong)BoardUnitView * selectedCell;
 @property(nonatomic, strong)NSArray <UIImageView *> * inputArr;
+@property(nonatomic, assign)NSInteger levelLabel;
 @end
 
 @implementation PlayGroundViewController
@@ -24,6 +25,22 @@
     self = [super init];
     if(self){
         self.sudoku = [[Sudoku alloc] initWithLevel:level];
+        switch (level) {
+            case level_2:
+                self.levelLabel = 1;
+                break;
+            case level_3:
+                self.levelLabel = 2;
+                break;
+            case level_4:
+                self.levelLabel = 3;
+                break;
+            case level_5:
+                self.levelLabel = 4;
+                break;
+            default:
+                break;
+        }
 //        NSLog(@"%@", self.sudoku.mapArr);
         intArr arr = [NSArray convert2DNSArray:self.sudoku.solArr];
         for(int i = 0; i < 9; i++){
@@ -121,6 +138,15 @@ const float kInputCellHeight = 53.f;
         make.height.mas_equalTo(@85);
         make.width.mas_equalTo(self.view.mas_width);
         make.centerX.equalTo(self.view.mas_centerX);
+    }];
+    //level label
+    UIImageView * labelView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"level-%ld",self.levelLabel]]];
+    [self.view addSubview:labelView];
+    [labelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(topLayer.mas_bottom).with.offset(-13);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(labelView.image.size.width);
+        make.height.mas_equalTo(labelView.image.size.height);
     }];
     //navigation
     UIButton * nav = [[UIButton alloc] initWithFrame:CGRectMake(30, 44, 17, 30)];
