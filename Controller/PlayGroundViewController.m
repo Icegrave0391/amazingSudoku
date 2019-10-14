@@ -58,6 +58,16 @@
 }
 
 #pragma mark - view lifecycle
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self timerStart];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [self timerStop];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     //test
@@ -489,6 +499,6 @@ static dispatch_source_t _timer;
     NSInteger sec = ((NSInteger)timeRemain) % 60;
     NSInteger minute=(((NSInteger) timeRemain)/60)%60;
     NSInteger hour=(((NSInteger) timeRemain)/60)/60;
-    self.timeLabel.text = [NSString stringWithFormat:@"%i:%i:%i", hour, minute, sec];
+    self.timeLabel.text = [NSString stringWithFormat:@"%li:%li:%li", (long)hour, (long)minute, (long)sec];
 }
 @end
