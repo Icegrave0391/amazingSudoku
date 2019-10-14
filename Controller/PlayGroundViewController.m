@@ -484,6 +484,11 @@ static dispatch_source_t _timer;
 }
 
 - (void)updateTimeRemainLabel{
-    
+    self.playTime ++;
+    double timeRemain = self.playTime;
+    NSInteger sec = ((NSInteger)timeRemain) % 60;
+    NSInteger minute=(((NSInteger) timeRemain)/60)%60;
+    NSInteger hour=(((NSInteger) timeRemain)/60)/60;
+    self.timeLabel.text = [NSString stringWithFormat:@"%i:%i:%i", hour, minute, sec];
 }
 @end
