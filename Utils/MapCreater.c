@@ -271,3 +271,80 @@ void generateSudoku(SudokuLevel level){
             break;
     }
 }
+
+#pragma mark - version 2
+void * creatSudoku(int difficuties, int sudoku[][9], int solution[][9]){
+    int rate;
+    switch(difficuties){
+        case(0):{
+            rate = 0.7;
+            break;
+        }
+        case(1):{
+            rate = 0.6;
+            break;
+        }
+        case(2):{
+            rate = 0.5;
+            break;
+        }
+        case(3):{
+            rate = 0.4;
+            break;
+        }
+    }
+    int seed[81] ={
+1,2,3,4,5,6,7,8,9,
+4,5,6,7,8,9,1,2,3,
+7,8,9,1,2,3,4,5,6,
+2,1,4,3,6,5,8,9,7,
+3,6,5,8,9,7,2,1,4,
+8,9,7,2,1,4,3,6,5,
+5,3,1,6,4,2,9,7,8,
+6,4,2,9,7,8,5,3,1,
+9,7,8,5,3,1,6,4,2,
+    };
+    // int * sudoku = (int *)malloc(81*sizeof(int));
+    for(int i = 0; i < 81; i++) sudoku[i] = seed[i];
+    srand((unsigned int)(time(NULL)));
+    int times = rand()%100+200;
+    while(times--){
+        int isRow;
+        int choose = rand()%3,operation = rand()%3,c1,c2;
+        choose *= 3;
+        if(rand()/(double)(RAND_MAX) > 0.5) isRow = 1;
+        else isRow = 0;
+        if(operation == 0) {c1 = 1;c2 = 2;}
+        else if(operation == 1){c1 = 1;c2 = 3;}
+        else{c1 = 2;c2 = 3;}
+        c1 += choose;
+        c2 += choose;
+        int change[9];
+        if(isRow){
+            memcpy(change, sudoku+c1*9, 9*sizeof(int));
+            memcpy(sudoku+c1*9, sudoku+c1*9-9, 9*sizeof(int));
+            memcpy(sudoku+c1*9-9, change, 9*sizeof(int));
+        }
+        else{
+            for(int i = 0; i < 9; i++){
+                change[i] = *(sudoku+i*9+c1-1);
+                *(sudoku+i*9+c1-1) = *(sudoku+i*9+c2-1);
+                *(sudoku+i*9+c2-1) = change[i];
+            }
+        }
+    }
+    for(int i = 0; i < 81; i++){
+        if(sudoku[i] == 1) sudoku[i] = 9;
+        else if(sudoku[i] == 9) sudoku[i] = 1;
+        if(sudoku[i] == 4) sudoku[i] = 2;
+        else if(sudoku[i] == 2) sudoku[i] = 4;
+    }
+    // solution = (int *) malloc(81*sizeof(int));
+    memcpy(solution, sudoku, 81*sizeof(int));
+    for(int i = 0; i < 81; i++){
+        float r = rand()/(double)(RAND_MAX);
+        if(r > rate) {
+            sudoku[i] = 0;
+        }
+    }
+}
