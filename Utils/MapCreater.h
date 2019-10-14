@@ -11,7 +11,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
+
 enum SudokuLevel{
     level_1 = 0,
     level_2,
@@ -32,4 +34,7 @@ int uniqueSolution(int row, int line);
 
 #pragma mark - create func
 void generateSudoku(SudokuLevel level);
+
+#pragma mark - version2
+void * creatSudoku(int difficuties, int sudoku[][9], int solution[][9]);
 #endif /* MapCreater_h */
