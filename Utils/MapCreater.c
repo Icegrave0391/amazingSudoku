@@ -250,22 +250,28 @@ int uniqueSolution(int row, int col){
 
 void generateSudoku(SudokuLevel level){
     //create sudoku
-    while(!lasVegasCreateSudoku(11));
+//    while(!lasVegasCreateSudoku(11));
     switch (level) {
         case level_1:
-            generateSudokuByDigHoles(36);
+//            generateSudokuByDigHoles(36);
+            creatSudoku(0, sudokuBoard, sudokuSolution);
+            break;
             break;
         case level_2:
-            generateSudokuByDigHoles(28);
+//            generateSudokuByDigHoles(28);
+            creatSudoku(0, sudokuBoard, sudokuSolution);
             break;
         case level_3:
-            generateSudokuByDigHoles(23);
+//            generateSudokuByDigHoles(23);
+            creatSudoku(1, sudokuBoard, sudokuSolution);
             break;
         case level_4:
-            generateSudokuByDigHoles(20);
+//            generateSudokuByDigHoles(20);
+            creatSudoku(2, sudokuBoard, sudokuSolution);
             break;
         case level_5:
-            generateSudokuByDigHoles(17);
+//            generateSudokuByDigHoles(17);
+            creatSudoku(3, sudokuBoard, sudokuSolution);
             break;
         default:
             break;
@@ -273,26 +279,30 @@ void generateSudoku(SudokuLevel level){
 }
 
 #pragma mark - version 2
-void * creatSudoku(int difficuties, int global_sudoku[][9], int global_solution[][9]){
-    int rate;
-    switch(difficuties){
-        case(0):{
-            rate = 0.7;
-            break;
-        }
-        case(1):{
-            rate = 0.6;
-            break;
-        }
-        case(2):{
-            rate = 0.5;
-            break;
-        }
-        case(3):{
-            rate = 0.4;
-            break;
-        }
-    }
+void creatSudoku(int difficuties, int global_sudoku[][9], int global_solution[][9]){
+    float rate;
+    if (difficuties == 0) rate = 0.7;
+    else if(difficuties == 1) rate = 0.6;
+    else if(difficuties == 2) rate = 0.5;
+    else rate = 0.4;
+//    switch(difficuties){
+//        case(0):{
+//            rate = 0.7;
+//            break;
+//        }
+//        case(1):{
+//            rate = 0.6;
+//            break;
+//        }
+//        case(2):{
+//            rate = 0.5;
+//            break;
+//        }
+//        case(3):{
+//            rate = 0.4;
+//            break;
+//        }
+//    }
     int seed[81] ={
 1,2,3,4,5,6,7,8,9,
 4,5,6,7,8,9,1,2,3,
@@ -352,5 +362,11 @@ void * creatSudoku(int difficuties, int global_sudoku[][9], int global_solution[
             global_sudoku[i][j] = sudoku[i*9+j];
             global_solution[i][j] = solution[i*9+j];
         }
+    }
+//    return;
+    for(int i = 0; i < 9; i++){
+        for(int j = 0; j < 9; j++){
+            printf("%d", global_sudoku[i][j]);
+        }printf("\n");
     }
 }

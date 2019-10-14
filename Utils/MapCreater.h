@@ -36,5 +36,5 @@ int uniqueSolution(int row, int line);
 void generateSudoku(SudokuLevel level);
 
 #pragma mark - version2
-void * creatSudoku(int difficuties, int sudoku[][9], int solution[][9]);
+void creatSudoku(int difficuties, int sudoku[][9], int solution[][9]);
 #endif /* MapCreater_h */
