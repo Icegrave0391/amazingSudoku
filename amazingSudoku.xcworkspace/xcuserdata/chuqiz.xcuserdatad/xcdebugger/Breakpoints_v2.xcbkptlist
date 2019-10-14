@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "467"
             endingLineNumber = "467"
-            landmarkName = "-updateSatisfiedMatWithRow:andCol:intArr:"
+            landmarkName = "-updateSatisfiedColWithRow:AndCol:intArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -159,7 +159,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "456"
             endingLineNumber = "456"
-            landmarkName = "-updateSatisfiedColWithRow:AndCol:intArr:"
+            landmarkName = "-updateSatisfiedRowWithRow:AndCol:intArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -175,8 +175,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "457"
             endingLineNumber = "457"
-            landmarkName = "-updateSatisfiedColWithRow:AndCol:intArr:"
-            landmarkType = "7">
+            landmarkName = "@implementation PlayGroundViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

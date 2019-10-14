@@ -26,6 +26,7 @@
     self = [super init];
     if(self){
         self.sudoku = [[Sudoku alloc] initWithLevel:level];
+        self.level = level;
         switch (level) {
             case level_2:
                 self.levelLabel = 1;
@@ -260,6 +261,9 @@ const float kInputCellHeight = 53.f;
 - (void)inputClicked:(UIGestureRecognizer *)tap{
     UIImageView * imgView = (UIImageView * )tap.view;
     NSInteger index = [self.inputArr indexOfObject:imgView];
+    if(index == 9){
+        [self clearAll];
+    }
     if(index < 9 || index == 10){
         if(self.selectedCell){
             NSInteger intNum = index < 9 ? index+1 : 0;
@@ -481,6 +485,40 @@ const float kInputCellHeight = 53.f;
     }
 }
 
+- (void)clearAll{
+    UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"清除全部" message:@"点击将清除全部已经填写的格子" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.sudoku.currentSolArr = [NSMutableArray arrayWithArray:self.sudoku.mapArr];
+        for(BoardUnitView * unitView in self.boardUnitArr){
+            if(unitView.couldModified){
+                unitView.unitNumber = [NSNumber numberWithInteger:0];
+            }
+        }
+    }];
+    UIAlertAction * cancelAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [confirmAction setValue:[UIColor colorWithRed:0.88 green:0.70 blue:0.72 alpha:1.0] forKey:@"_titleTextColor"];//设置提示按钮文字颜色为金色
+    [cancelAction setValue:UIColor.grayColor forKey:@"_titleTextColor"];//设置提示按钮文字颜色为金色
+    [alert addAction:confirmAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)generateNew{
+    UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"重新生成" message:@"点击将生成一局新的游戏" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.playTime = 0;
+        self.sudoku = [[Sudoku alloc] initWithLevel:self.level];
+        [self initBoardUnitArr];
+    }];
+    UIAlertAction * cancelAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [confirmAction setValue:[UIColor colorWithRed:0.88 green:0.70 blue:0.72 alpha:1.0] forKey:@"_titleTextColor"];//设置提示按钮文字颜色为金色
+    [cancelAction setValue:UIColor.grayColor forKey:@"_titleTextColor"];//设置提示按钮文字颜色为金色
+    [alert addAction:confirmAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 #pragma mark - timer
 static dispatch_source_t _timer;
 
