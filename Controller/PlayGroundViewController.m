@@ -224,7 +224,17 @@ const float kInputCellHeight = 53.f;
 }
 
 - (void)navReturn{
-    [self.navigationController popViewControllerAnimated:YES];
+    UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"退出游戏" message:@"退出将视为主动放弃本局游戏" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+    }];
+    UIAlertAction * cancelAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [confirmAction setValue:[UIColor colorWithRed:0.88 green:0.70 blue:0.72 alpha:1.0] forKey:@"_titleTextColor"];//设置提示按钮文字颜色为金色
+    [cancelAction setValue:UIColor.grayColor forKey:@"_titleTextColor"];//设置提示按钮文字颜色为金色
+    [alert addAction:confirmAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 #pragma mark - click
 - (void)cellClicked:(UITapGestureRecognizer *)tap{

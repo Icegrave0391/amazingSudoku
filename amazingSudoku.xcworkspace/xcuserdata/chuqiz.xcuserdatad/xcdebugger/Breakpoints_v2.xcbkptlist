@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "438"
             endingLineNumber = "438"
-            landmarkName = "-updateSatisfiedRowWithRow:AndCol:intArr:"
+            landmarkName = "-updateMatWrongCellsWithStartRow:andStartCol:intArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,7 +79,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "425"
             endingLineNumber = "425"
-            landmarkName = "-updateMatWrongCellsWithStartRow:andStartCol:intArr:"
+            landmarkName = "-updateColWrongCellsWithCol:intArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "412"
             endingLineNumber = "412"
-            landmarkName = "-updateColWrongCellsWithCol:intArr:"
+            landmarkName = "-updateRowWrongCellsWithRow:intArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -111,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "402"
             endingLineNumber = "402"
-            landmarkName = "-updateRowWrongCellsWithRow:intArr:"
+            landmarkName = "-judgeMatLegitimacyWithCell:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -159,7 +159,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "456"
             endingLineNumber = "456"
-            landmarkName = "-updateSatisfiedMatWithRow:andCol:intArr:"
+            landmarkName = "-updateSatisfiedColWithRow:AndCol:intArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -175,7 +175,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "457"
             endingLineNumber = "457"
-            landmarkName = "-updateSatisfiedMatWithRow:andCol:intArr:"
+            landmarkName = "-updateSatisfiedColWithRow:AndCol:intArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
