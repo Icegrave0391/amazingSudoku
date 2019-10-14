@@ -39,6 +39,23 @@ const float kSelBtnHeight = 50.f;
         make.width.mas_equalTo(self.view.mas_width);
         make.centerX.equalTo(self.view.mas_centerX);
     }];
+    UIImageView * topImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rank_topImg"]];
+    [self.view addSubview:topImg];
+    [topImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(topLayer.mas_bottom).with.offset(-10);
+        make.left.equalTo(self.view.mas_left).with.offset(26);
+        make.width.mas_equalTo(@26  );
+        make.height.mas_equalTo(@31);
+    }];
+    //top label
+    UIImageView * topLabel = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_topLabel"]];
+    [self.view addSubview:topLabel];
+    [topLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(topImg.mas_centerY);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.height.mas_equalTo(@24);
+        make.width.mas_equalTo(@99);
+    }];
     //btn arr bg
     UIImageView * btnBackGround = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"btn-bg"]];
     [self.view addSubview:btnBackGround];
@@ -64,6 +81,16 @@ const float kSelBtnHeight = 50.f;
         [tempArr addObject:btn];
     }
     self.btnArr = [NSArray arrayWithArray:tempArr];
+    //rank table
+    UIImageView * rankTable = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ranktable"]];
+    [self.view addSubview:rankTable];
+    [rankTable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.height.mas_equalTo(@668);
+    }];
+    
 }
 
 - (void)btnClicked:(RankSelButton *)button{

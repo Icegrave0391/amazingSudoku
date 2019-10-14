@@ -17,6 +17,7 @@
 @property(nonatomic, strong)BoardUnitView * selectedCell;
 @property(nonatomic, strong)NSArray <UIImageView *> * inputArr;
 @property(nonatomic, assign)NSInteger levelLabel;
+@property(nonatomic, strong)UILabel * timeLabel;
 @end
 
 @implementation PlayGroundViewController
@@ -167,6 +168,13 @@ const float kInputCellHeight = 53.f;
             }];
         }
     }
+    //time label
+//    self.timeLabel = ({
+//        UILabel * label = [[UILabel alloc] init];
+//        [self.view addSubview:label];
+//        label.font = [UIFont fontWithName:font size:<#(CGFloat)#>
+//        label;
+//    });
     //inputs
     for(int i = 0; i < 12; i++){
         UIImageView * imgView = self.inputArr[i];
@@ -288,7 +296,6 @@ const float kInputCellHeight = 53.f;
 }
 
 - (void)updateOKCellsWithCell:(BoardUnitView *)unitView{
-//    int intNum = [unitView.unitNumber intValue];
     int row = [[NSNumber numberWithInteger:unitView.row] intValue];
     int col = [[NSNumber numberWithInteger:unitView.column] intValue];
     intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
@@ -373,7 +380,7 @@ const float kInputCellHeight = 53.f;
     for(int i = 0; i < 9; i++){
         BoardUnitView * unitView = self.boardUnitArr[row][i];
         if(unitView.unitStatus == UnitStatusWrong){
-            if([self judgeLegitimacyWithCell:unitView])
+            if([self judgeLegitimacyWithCell:unitView] && unitView.couldModified)
                 unitView.unitStatus = UnitStatusNormal;
         }
     }
@@ -383,7 +390,7 @@ const float kInputCellHeight = 53.f;
     for(int i = 0; i > 9; i++){
         BoardUnitView * unitView = self.boardUnitArr[i][col];
         if(unitView.unitStatus == UnitStatusWrong){
-            if([self judgeLegitimacyWithCell:unitView])
+            if([self judgeLegitimacyWithCell:unitView] && unitView.couldModified)
                 unitView.unitStatus = UnitStatusNormal;
         }
     }
@@ -396,7 +403,7 @@ const float kInputCellHeight = 53.f;
         for(int col = (int)col_start; col < col_end; col++){
             BoardUnitView * unitView = self.boardUnitArr[row][col];
             if(unitView.unitStatus == UnitStatusWrong){
-                if([self judgeLegitimacyWithCell:unitView])
+                if([self judgeLegitimacyWithCell:unitView] && unitView.couldModified)
                     unitView.unitStatus = UnitStatusNormal;
             }
         }
@@ -409,7 +416,7 @@ const float kInputCellHeight = 53.f;
         for(int i = 0; i < 9; i++){
             BoardUnitView * unitView = self.boardUnitArr[row][i];
             unitView.rowSatisfied = NO;
-            if(!unitView.colSatisfied && !unitView.matSatisfied && unitView.unitStatus != UnitStatusWrong){
+            if(!unitView.colSatisfied && !unitView.matSatisfied && unitView.unitStatus != UnitStatusWrong && unitView.couldModified){
                 unitView.unitStatus = UnitStatusNormal;
             }
         }
@@ -421,7 +428,7 @@ const float kInputCellHeight = 53.f;
         for(int i = 0; i < 9; i++){
             BoardUnitView * unitView = self.boardUnitArr[i][col];
             unitView.rowSatisfied = NO;
-            if(!unitView.rowSatisfied && !unitView.matSatisfied && unitView.unitStatus != UnitStatusWrong){
+            if(!unitView.rowSatisfied && !unitView.matSatisfied && unitView.unitStatus != UnitStatusWrong && unitView.couldModified){
                 unitView.unitStatus = UnitStatusNormal;
             }
         }
@@ -438,11 +445,37 @@ const float kInputCellHeight = 53.f;
             for (int col = col_start; col < col_end; col++) {
                 BoardUnitView * unitView = self.boardUnitArr[row][col];
                 unitView.matSatisfied = NO;
-                if(!unitView.rowSatisfied && !unitView.colSatisfied && unitView.unitStatus != UnitStatusWrong){
+                if(!unitView.rowSatisfied && !unitView.colSatisfied && unitView.unitStatus != UnitStatusWrong && unitView.couldModified){
                     unitView.unitStatus = UnitStatusNormal;
                 }
             }
         }
     }
+}
+
+#pragma mark - timer
+static dispatch_source_t _timer;
+
+- (void)timerStart{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_timer, dispatch_walltime(0, 0), 1.0 * NSEC_PER_SEC, 0);
+    //call back
+    dispatch_source_set_event_handler(_timer, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateTimeRemainLabel];
+        });
+    });
+    dispatch_resume(_timer);
+}
+
+- (void)timerStop {
+    if (_timer!=NULL) {
+        dispatch_source_cancel(_timer);
+    }
+}
+
+- (void)updateTimeRemainLabel{
+    
 }
 @end
