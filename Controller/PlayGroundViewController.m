@@ -264,6 +264,9 @@ const float kInputCellHeight = 53.f;
     if(index == 9){
         [self clearAll];
     }
+    if(index == 11){
+        [self generateNew];
+    }
     if(index < 9 || index == 10){
         if(self.selectedCell){
             NSInteger intNum = index < 9 ? index+1 : 0;
