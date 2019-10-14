@@ -492,11 +492,7 @@ const float kInputCellHeight = 53.f;
     UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"清除全部" message:@"点击将清除全部已经填写的格子" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         self.sudoku.currentSolArr = [NSMutableArray arrayWithArray:self.sudoku.mapArr];
-        for(BoardUnitView * unitView in self.boardUnitArr){
-            if(unitView.couldModified){
-                unitView.unitNumber = [NSNumber numberWithInteger:0];
-            }
-        }
+        [self clearBoardUI];
     }];
     UIAlertAction * cancelAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
@@ -512,7 +508,7 @@ const float kInputCellHeight = 53.f;
     UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         self.playTime = 0;
         self.sudoku = [[Sudoku alloc] initWithLevel:self.level];
-        [self initBoardUnitArr];
+        [self reloadBoardUI];
     }];
     UIAlertAction * cancelAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
@@ -521,6 +517,38 @@ const float kInputCellHeight = 53.f;
     [alert addAction:confirmAction];
     [alert addAction:cancelAction];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)clearBoardUI{
+    for(int i = 0 ; i < 9 ; i++){
+            for (int j = 0; j < 9; j++) {
+                BoardUnitView * unitView = self.boardUnitArr[i][j];
+                if(unitView.couldModified){
+                    unitView.unitNumber = @0;
+                    unitView.unitStatus = UnitStatusNormal;
+                }
+            }
+        }
+}
+
+- (void)reloadBoardUI{
+    for(int i = 0 ; i < 9 ; i++){
+        for (int j = 0; j < 9; j++) {
+            BoardUnitView * unitView = self.boardUnitArr[i][j];
+            NSNumber * number = self.sudoku.mapArr[i][j];
+            //assign unitview status & number
+            if([number integerValue]){
+                unitView.unitStatus = UnitStatusInitial;
+                unitView.unitNumber = [NSNumber numberWithInteger:[number integerValue]];
+                [unitView setInitialImageWithNumber:unitView.unitNumber];
+            }
+            else{
+//                unitView.unitStatus = UnitStatusNormal;
+                unitView.unitNumber = [NSNumber numberWithInteger:0];
+                unitView.unitStatus = UnitStatusNormal;
+            }
+        }
+    }
 }
 #pragma mark - timer
 static dispatch_source_t _timer;
@@ -552,4 +580,6 @@ static dispatch_source_t _timer;
     NSInteger hour=(((NSInteger) timeRemain)/60)/60;
     self.timeLabel.text = [NSString stringWithFormat:@"%li:%li:%li", (long)hour, (long)minute, (long)sec];
 }
+
+
 @end
