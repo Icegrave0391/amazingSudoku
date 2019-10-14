@@ -273,7 +273,7 @@ void generateSudoku(SudokuLevel level){
 }
 
 #pragma mark - version 2
-void * creatSudoku(int difficuties, int sudoku[][9], int solution[][9]){
+void * creatSudoku(int difficuties, int global_sudoku[][9], int global_solution[][9]){
     int rate;
     switch(difficuties){
         case(0):{
@@ -304,7 +304,7 @@ void * creatSudoku(int difficuties, int sudoku[][9], int solution[][9]){
 6,4,2,9,7,8,5,3,1,
 9,7,8,5,3,1,6,4,2,
     };
-    // int * sudoku = (int *)malloc(81*sizeof(int));
+    int * sudoku = (int *)malloc(81*sizeof(int));
     for(int i = 0; i < 81; i++) sudoku[i] = seed[i];
     srand((unsigned int)(time(NULL)));
     int times = rand()%100+200;
@@ -339,12 +339,18 @@ void * creatSudoku(int difficuties, int sudoku[][9], int solution[][9]){
         if(sudoku[i] == 4) sudoku[i] = 2;
         else if(sudoku[i] == 2) sudoku[i] = 4;
     }
-    // solution = (int *) malloc(81*sizeof(int));
+    int * solution = (int *) malloc(81*sizeof(int));
     memcpy(solution, sudoku, 81*sizeof(int));
     for(int i = 0; i < 81; i++){
         float r = rand()/(double)(RAND_MAX);
         if(r > rate) {
             sudoku[i] = 0;
+        }
+    }
+    for(int i = 0; i < 9; i++){
+        for(int j = 0; j < 9; j++){
+            global_sudoku[i][j] = sudoku[i*9+j];
+            global_solution[i][j] = solution[i*9+j];
         }
     }
 }
