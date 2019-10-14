@@ -169,12 +169,20 @@ const float kInputCellHeight = 53.f;
         }
     }
     //time label
-//    self.timeLabel = ({
-//        UILabel * label = [[UILabel alloc] init];
-//        [self.view addSubview:label];
-//        label.font = [UIFont fontWithName:font size:<#(CGFloat)#>
-//        label;
-//    });
+    self.timeLabel = ({
+        UILabel * label = [[UILabel alloc] init];
+        [self.view addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(topLayer.mas_bottom).with.offset(49);
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.width.equalTo(self.view.mas_width);
+            make.height.mas_equalTo(@50);
+        }];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont fontWithName:@"Thonburi-Bold" size:50];
+        label.textColor = [UIColor whiteColor];
+        label;
+    });
     //inputs
     for(int i = 0; i < 12; i++){
         UIImageView * imgView = self.inputArr[i];
