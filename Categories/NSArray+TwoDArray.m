@@ -34,4 +34,17 @@
     }
     return tempArr;
 }
+
++ (NSArray *)twoDArrayFromArray:(NSArray *)array{
+    NSMutableArray * tempArr = [NSMutableArray array];
+    for(int i = 0 ; i < 9 ; i ++){
+        NSMutableArray * tempArr2D = [NSMutableArray array];
+        for(int j = 0 ; j < 9 ; j ++){
+            NSNumber *obj = array[i * 9 + j];
+            [tempArr2D addObject:obj];
+        }
+        [tempArr addObject:tempArr2D];
+    }
+    return [NSArray arrayWithArray:tempArr];
+}
 @end

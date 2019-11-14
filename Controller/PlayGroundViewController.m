@@ -21,15 +21,72 @@
 @property(nonatomic, assign)NSInteger levelLabel;
 @property(nonatomic, strong)UILabel * timeLabel;
 @property(nonatomic, assign)BOOL is_netMode;
+@property (strong, nonatomic) dispatch_source_t get_timer;
 @end
 
 @implementation PlayGroundViewController
-
-- (instancetype)initWithSudokuLevel:(SudokuLevel)level{
+BOOL is_init = YES;
+- (instancetype)initWithSudokuLevel:(SudokuLevel)level andNet:(BOOL)abool{
     self = [super init];
     if(self){
-        self.sudoku = [[Sudoku alloc] initWithLevel:level];
-        NSDictionary * dic = [self.sudoku dictionaryFromSudoku];
+        self.is_netMode = abool;
+        if(!abool){
+            self.sudoku = [[Sudoku alloc] initWithLevel:level];
+            self.level = level;
+            switch (level) {
+                case level_2:
+                    self.levelLabel = 1;
+                    break;
+                case level_3:
+                    self.levelLabel = 2;
+                    break;
+                case level_4:
+                    self.levelLabel = 3;
+                    break;
+                case level_5:
+                    self.levelLabel = 4;
+                    break;
+                default:
+                    break;
+            }
+            //init board unit arr
+            [self initBoardUnitArr];
+            //init input arr
+            [self initInputArr];
+        }
+        else{
+//            [[NetworkManager sharedManager] requestWithMethod:GET WithPath:[[NetworkManager sharedManager] firstGetURL]  WithParams:@{} WithSuccessBlock:^(NSDictionary * _Nonnull dic) {
+//                Sudoku * sudoku = [[Sudoku alloc] initWithDict:dic];
+//                self.sudoku = sudoku;
+//                NSLog(@"sudopku ; %@", sudoku);
+//                self.level = level;
+//                switch (level) {
+//                    case level_2:
+//                        self.levelLabel = 1;
+//                        break;
+//                    case level_3:
+//                        self.levelLabel = 2;
+//                        break;
+//                    case level_4:
+//                        self.levelLabel = 3;
+//                        break;
+//                    case level_5:
+//                        self.levelLabel = 4;
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                //init board unit arr
+//                [self initBoardUnitArr];
+//                //init input arr
+//                [self initInputArr];
+//            } WithFailurBlock:^(NSError * _Nonnull error) {
+//                NSLog(@"---failed: %@", error);
+////                self.sudoku = nil;
+//            }];
+        }
+        NSLog(@"sudo : %@", self.sudoku.mapArr);
+//        NSDictionary * dic = [self.sudoku dictionaryFromSudoku];
 //        NSString * jsonStr = [JsonHandler dictionaryToJson:dic];
 //        NSLog(@"--------host: %@", [NetworkManager sharedManager].host);
 //        [[NetworkManager sharedManager] requestWithMethod:POST WithPath:[NetworkManager sharedManager].host WithParams:dic WithSuccessBlock:^(NSDictionary * _Nonnull dic) {
@@ -40,29 +97,27 @@
         #pragma mark - log test
                 //        NSLog(@"-----dict : %@ ----", [self.sudoku dictionaryFromSudoku]);
         //                   NSLog(@"-----------url :%@----------", [NetworkManager sharedManager].host);
-        self.level = level;
-        switch (level) {
-            case level_2:
-                self.levelLabel = 1;
-                break;
-            case level_3:
-                self.levelLabel = 2;
-                break;
-            case level_4:
-                self.levelLabel = 3;
-                break;
-            case level_5:
-                self.levelLabel = 4;
-                break;
-            default:
-                break;
-        }
-        //init board unit arr
-        if(level != level_5){
-            [self initBoardUnitArr];
-        }
-        //init input arr
-        [self initInputArr];
+//        self.level = level;
+//        switch (level) {
+//            case level_2:
+//                self.levelLabel = 1;
+//                break;
+//            case level_3:
+//                self.levelLabel = 2;
+//                break;
+//            case level_4:
+//                self.levelLabel = 3;
+//                break;
+//            case level_5:
+//                self.levelLabel = 4;
+//                break;
+//            default:
+//                break;
+//        }
+//        //init board unit arr
+//        [self initBoardUnitArr];
+//        //init input arr
+//        [self initInputArr];
     }
     return self;
 }
@@ -109,21 +164,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if(self.levelLabel == 4){
-        UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"多人游戏？" message:@"您是否要进入合作模式?" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self cooperationMode:level_5];
-        }];
-        UIAlertAction * cancelAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self setLevel:level_5];
-        }];
-        [confirmAction setValue:[UIColor colorWithRed:0.88 green:0.70 blue:0.72 alpha:1.0] forKey:@"_titleTextColor"];
-        [cancelAction setValue:UIColor.grayColor forKey:@"_titleTextColor"];
-        [alert addAction:confirmAction];
-        [alert addAction:cancelAction];
-        [self presentViewController:alert animated:YES completion:nil];
+    if(!self.is_netMode){
+        [self setUpUI];
     }
-    [self setUpUI];
+    else{
+        [[NetworkManager sharedManager] requestWithMethod:GET WithPath:[[NetworkManager sharedManager] firstGetURL]  WithParams:@{} WithSuccessBlock:^(NSDictionary * _Nonnull dic) {
+            Sudoku * sudoku = [[Sudoku alloc] initWithDict:dic];
+            self.sudoku = sudoku;
+            NSLog(@"sudopku ; %@", sudoku);
+            self.level = level_5;
+            self.levelLabel = 4;
+            //init board unit arr
+            [self initBoardUnitArr];
+            //init input arr
+            [self initInputArr];
+            [self setUpUI];
+        } WithFailurBlock:^(NSError * _Nonnull error) {
+            NSLog(@"---failed: %@", error);
+            self.sudoku = nil;
+        }];
+    }
 }
 
 #pragma mark - board unit arr
@@ -315,7 +375,17 @@ const float kInputCellHeight = 53.f;
             self.selectedCell.unitStatus = UnitStatusNormal;
             self.selectedCell.unitNumber = [NSNumber numberWithInteger:intNum];
             [self updateCurrentSudokuWithCell:self.selectedCell];
-            
+            if(self.is_netMode){
+                [[NetworkManager sharedManager] requestWithMethod:POST WithPath:[NetworkManager sharedManager].host WithParams:[self.sudoku dictionaryFromSudoku] WithSuccessBlock:^(NSDictionary * _Nonnull dic) {
+                    NSLog(@"success update");
+                    if(is_init){
+                        [self begin_get_timer];
+                        is_init = NO;
+                    }
+                } WithFailurBlock:^(NSError * _Nonnull error) {
+                    NSLog(@"err : %@", error);
+                }];
+            }
             intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
             //fill cell
             if([self judgeLegitimacyWithCell:self.selectedCell]){
@@ -640,15 +710,82 @@ static dispatch_source_t _timer;
         self.is_netMode = YES;
         [[NetworkManager sharedManager] requestWithMethod:GET WithPath:[[NetworkManager sharedManager] firstGetURL]  WithParams:@{} WithSuccessBlock:^(NSDictionary * _Nonnull dic) {
             Sudoku * sudoku = [[Sudoku alloc] initWithDict:dic];
+//            [self setNetworkInitSudoku:sudoku];
             NSLog(@"sudopku ; %@", sudoku);
-            for(int i = 0; i < 9; i++){
-                for(int j = 0; j < 9; j++){
-                    printf("%d", [sudoku.mapArr[i][j] intValue]);
-                }printf("\n");
-            }
+            
         } WithFailurBlock:^(NSError * _Nonnull error) {
             NSLog(@"---failed: %@", error);
         }];
     }
+}
+
+
+- (void)refreshUI{
+    for(int i = 0; i < 9; i++){
+        for (int j = 0; j < 9; j++) {
+            BoardUnitView * view = self.boardUnitArr[i][j];
+            view.unitNumber = self.sudoku.currentSolArr[i][j];
+            intArr arr = [NSArray convert2DNSArray:self.sudoku.currentSolArr];
+            //fill cell
+            
+            if([self judgeLegitimacyWithCell:view]){
+                [self updateOKCellsWithCell:view];
+            }
+            else{
+                    view.unitStatus = UnitStatusWrong;
+            }
+            //rejudge wrong
+            [self updateRowWrongCellsWithRow:view.row
+                                      intArr:arr];
+            [self updateColWrongCellsWithCol:view.column
+                                      intArr:arr];
+            [self updateMatWrongCellsWithStartRow:view.row / 3 * 3
+                                      andStartCol:view.column / 3 * 3
+                                           intArr:arr];
+            //rejudge satisfy
+            if(view.rowSatisfied){
+                [self updateSatisfiedRowWithRow:view.row
+                                         AndCol:view.column
+                                         intArr:arr];
+            }
+            if(view.colSatisfied){
+                [self updateSatisfiedColWithRow:view.row
+                                         AndCol:view.column
+                                         intArr:arr];
+            }
+            if(view.matSatisfied){
+                [self updateSatisfiedMatWithRow:view.row
+                                         andCol:view.column
+                                         intArr:arr];
+            }
+        }
+    }
+}
+- (void)begin_get_timer {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+    self.get_timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    dispatch_source_set_timer(self.get_timer, DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC, 0.1 * NSEC_PER_SEC);
+    
+    dispatch_source_set_event_handler(self.get_timer, ^{
+        [[NetworkManager sharedManager] requestWithMethod:GET WithPath:[[NetworkManager sharedManager] GetURL] WithParams:@{} WithSuccessBlock:^(NSDictionary * _Nonnull dic) {
+            self.sudoku = [[Sudoku alloc] initWithDict:dic];
+            for(int i = 0; i < 9; i++){
+                for(int j = 0; j < 9; j++){
+                    printf("%d", [self.sudoku.currentSolArr[i][j] intValue]);
+                }printf("\n");
+            }
+        [self refreshUI];
+        } WithFailurBlock:^(NSError * _Nonnull error) {
+            nil;
+        }];
+    });
+    
+    dispatch_resume(self.get_timer);
+}
+
+- (void)end {
+    dispatch_source_cancel(self.get_timer);
 }
 @end

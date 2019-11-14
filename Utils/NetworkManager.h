@@ -26,6 +26,7 @@ typedef void (^requestFailureBlock)(NSError *error);
 + (instancetype)sharedManager;
 -(int)networkStatusChangeAFN;
 - (NSString *)firstGetURL;
+- (NSString *)GetURL;
 - (void)requestWithMethod:(HTTPMethod)method
              WithPath:(NSString *)path
            WithParams:(NSDictionary*)params

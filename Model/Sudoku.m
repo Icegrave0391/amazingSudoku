@@ -8,6 +8,7 @@
 
 #import "Sudoku.h"
 #import <objc/runtime.h>
+#import "NSArray+TwoDArray.h"
 @implementation Sudoku
 
 - (instancetype)initWithLevel:(SudokuLevel)level{
@@ -27,11 +28,19 @@
 - (id)initWithDict:(NSDictionary *)aDict{
     self = [super init];
     if(self){
-        self.mapArr = aDict[@"mapArr[][]"];
-        self.currentSolArr = aDict[@"currentSolArr[][]"];
-        self.solArr = aDict[@"solArr"];
+        self.mapArr = [NSArray twoDArrayFromArray:aDict[@"mapArr[][]"]];
+        self.currentSolArr =[NSMutableArray arrayWithArray:[NSArray twoDArrayFromArray:aDict[@"currentSolArr[][]"]]];
+        self.solArr = [NSArray twoDArrayFromArray:aDict[@"solArr[][]"]];
     }
     return self;
+}
+
+- (NSDictionary *)dictionaryFromSudoku{
+    return @{
+        @"mapArr" : self.mapArr,
+        @"currentSolArr" : self.currentSolArr,
+        @"solArr" : self.solArr
+    };
 }
 
 - (void)setAttributesDictionary:(NSDictionary *)aDict{
@@ -79,23 +88,23 @@
 }
 
 #pragma mark - model -> dic
-- (NSDictionary *)dictionaryFromSudoku{
-    unsigned int count = 0;
-    objc_property_t *properties = class_copyPropertyList([self class], &count);
-    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithCapacity:count];
-    NSDictionary * keyValueMap = [self attributesMapDictionary];
-    
-    for (int i = 0; i < count; i++) {
-        NSString *key = [NSString stringWithUTF8String:property_getName(properties[i])];
-        id value = [self valueForKey:key];
-        NSLog(@"key = %@, value = %@, value class = %@, changed Key = %@", key, value, NSStringFromClass([value class]), [keyValueMap objectForKey:key]);
-        key = [keyValueMap objectForKey:key];
-        //only add it to dictionary if it is not nil
-        if (key && value) {
-            [dict setObject:value forKey:key];
-        }
-    }
-    free(properties);
-    return dict;
-}
+//- (NSDictionary *)dictionaryFromSudoku{
+//    unsigned int count = 0;
+//    objc_property_t *properties = class_copyPropertyList([self class], &count);
+//    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithCapacity:count];
+//    NSDictionary * keyValueMap = [self attributesMapDictionary];
+//    
+//    for (int i = 0; i < count; i++) {
+//        NSString *key = [NSString stringWithUTF8String:property_getName(properties[i])];
+//        id value = [self valueForKey:key];
+//        NSLog(@"key = %@, value = %@, value class = %@, changed Key = %@", key, value, NSStringFromClass([value class]), [keyValueMap objectForKey:key]);
+//        key = [keyValueMap objectForKey:key];
+//        //only add it to dictionary if it is not nil
+//        if (key && value) {
+//            [dict setObject:value forKey:key];
+//        }
+//    }
+//    free(properties);
+//    return dict;
+//}
 @end

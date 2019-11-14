@@ -73,6 +73,12 @@ static NetworkManager * sharedManager = nil;
     return sourceURL.absoluteString;
 }
 
+- (NSString *)GetURL{
+    NSURL * sourceURL = [NSURL URLWithString:@"write.json"
+    relativeToURL:sharedManager.manager.baseURL];
+    return sourceURL.absoluteString;
+}
+
 -(int)networkStatusChangeAFN
 {
     //1.获得一个网络状态监听管理者

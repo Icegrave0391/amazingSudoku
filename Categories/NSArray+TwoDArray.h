@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef int (*intArr)[9];
 + (NSArray *)convert2DArray:(int[_Nullable 9][9])arr;        //将C类型二维数组转化为NSArray
 + (intArr)convert2DNSArray:(NSArray *)array;                 //将NSArray转化为C类型二维数组
-
++ (NSArray *)twoDArrayFromArray:(NSArray *)array;
 @end
 
 NS_ASSUME_NONNULL_END

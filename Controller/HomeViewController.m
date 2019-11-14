@@ -42,11 +42,11 @@ const float kCellWidth = 367.f;
 //        }printf("\n");
 //    }
 //}
-
-- (void)testcontroller{
-    PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level_3];
-    [self presentViewController:playVC animated:YES completion:nil];
-}
+//
+//- (void)testcontroller{
+//    PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level_3];
+//    [self presentViewController:playVC animated:YES completion:nil];
+//}
 
 - (void)setUpUI{
     UIImageView * bgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
@@ -117,8 +117,28 @@ const float kCellWidth = 367.f;
             level = level_5;
             break;
     }
-    PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level];
-    [self.navigationController pushViewController:playVC animated:YES];
+    if(level != level_5){
+        PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level andNet:NO];
+        [self.navigationController pushViewController:playVC animated:YES];
+    }
+    if(level == level_5){
+        UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"多人游戏？" message:@"您是否要进入合作模式?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level andNet:YES];
+            [self.navigationController pushViewController:playVC animated:YES];
+
+        }];
+        UIAlertAction * cancelAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level andNet:NO];
+            [self.navigationController pushViewController:playVC animated:YES];
+        }];
+        [confirmAction setValue:[UIColor colorWithRed:0.88 green:0.70 blue:0.72 alpha:1.0] forKey:@"_titleTextColor"];
+        [cancelAction setValue:UIColor.grayColor forKey:@"_titleTextColor"];
+        [alert addAction:confirmAction];
+        [alert addAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+
 //    [self presentViewController:playVC animated:YES completion:nil];
 }
 @end

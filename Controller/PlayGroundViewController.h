@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign)NSTimeInterval playTime;     //游戏时间
 @property(nonatomic, assign)SudokuLevel level;           //游戏等级
 
-- (instancetype)initWithSudokuLevel:(SudokuLevel)level;  //根据等级生成游戏
+- (instancetype)initWithSudokuLevel:(SudokuLevel)level andNet:(BOOL)abool;  //根据等级生成游戏
 @end
 
 NS_ASSUME_NONNULL_END
