@@ -18,25 +18,25 @@ typedef NS_ENUM(NSInteger, UnitStatus) {
 };
 @interface BoardUnitView : UIImageView
 
-@property(nonatomic, assign)UnitStatus unitStatus;
+@property(nonatomic, assign)UnitStatus unitStatus; //数独单元状态
 @property(nonatomic, assign)UnitStatus lastStatus; //save last status (unInitial)
 
-@property(nonatomic, assign)BOOL isSelected;
-@property(nonatomic, assign)BOOL couldModified;
+@property(nonatomic, assign)BOOL isSelected;       //是否被选中
+@property(nonatomic, assign)BOOL couldModified;    //能否被修改
 //status for undo & modify
-@property(nonatomic, assign)BOOL colSatisfied;
-@property(nonatomic, assign)BOOL rowSatisfied;
-@property(nonatomic, assign)BOOL matSatisfied;
+@property(nonatomic, assign)BOOL colSatisfied;     //是否列满足
+@property(nonatomic, assign)BOOL rowSatisfied;     //是否行满足
+@property(nonatomic, assign)BOOL matSatisfied;     //是否矩阵满足
 //UI
-@property(nonatomic, strong)UIImageView * selectMaskView;
+@property(nonatomic, strong)UIImageView * selectMaskView;   //边框视图
 //@property(nonatomic, strong)UILabel * numLabel;
 //model
-@property(nonatomic, strong)NSNumber * unitNumber;
+@property(nonatomic, strong)NSNumber * unitNumber;         //持有的数字
 //from 0 to 8
-@property(nonatomic, assign)NSInteger row;
-@property(nonatomic, assign)NSInteger column;
-- (instancetype)init;
-- (void)setInitialImageWithNumber:(NSNumber *)number;
+@property(nonatomic, assign)NSInteger row;                 //所属行
+@property(nonatomic, assign)NSInteger column;              //所属列
+- (instancetype)init;                                      //初始化
+- (void)setInitialImageWithNumber:(NSNumber *)number;      //根据数字生成image
 @end
 
 NS_ASSUME_NONNULL_END

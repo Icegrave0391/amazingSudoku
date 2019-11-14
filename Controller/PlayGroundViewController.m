@@ -11,6 +11,8 @@
 #import <Masonry.h>
 #import "MapSolver.h"
 #import "NSArray+TwoDArray.h"
+#import "NetworkManager.h"
+//#import "JsonHandler.h"
 
 @interface PlayGroundViewController ()
 @property(nonatomic, strong)NSMutableArray * boardUnitArr;
@@ -26,6 +28,9 @@
     self = [super init];
     if(self){
         self.sudoku = [[Sudoku alloc] initWithLevel:level];
+#pragma mark - log test
+//        NSLog(@"-----dict : %@ ----", [self.sudoku dictionaryFromSudoku]);
+        NSLog(@"-----------url :%@----------", [NetworkManager sharedManager].host);
         self.level = level;
         switch (level) {
             case level_2:
@@ -43,7 +48,6 @@
             default:
                 break;
         }
-//        NSLog(@"%@", self.sudoku.mapArr);
         intArr arr = [NSArray convert2DNSArray:self.sudoku.solArr];
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){

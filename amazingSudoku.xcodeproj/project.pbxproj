@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		082CBEEC237D3600003A1186 /* JsonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CBEEB237D3600003A1186 /* JsonHandler.m */; };
+		082CBEEF237D6ED7003A1186 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 082CBEEE237D6ED7003A1186 /* NetworkManager.m */; };
 		085869FB234E0ABC00C1F824 /* BoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 085869FA234E0ABC00C1F824 /* BoardView.m */; };
 		085869FE23501E5C00C1F824 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 085869FD23501E5C00C1F824 /* RankViewController.m */; };
 		08586A01235021F400C1F824 /* RankSelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 08586A00235021F400C1F824 /* RankSelButton.m */; };
@@ -45,6 +47,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		082CBEEA237D3600003A1186 /* JsonHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JsonHandler.h; sourceTree = "<group>"; };
+		082CBEEB237D3600003A1186 /* JsonHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JsonHandler.m; sourceTree = "<group>"; };
+		082CBEED237D6ED7003A1186 /* NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		082CBEEE237D6ED7003A1186 /* NetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		085869F9234E0ABC00C1F824 /* BoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardView.h; sourceTree = "<group>"; };
 		085869FA234E0ABC00C1F824 /* BoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoardView.m; sourceTree = "<group>"; };
 		085869FC23501E5C00C1F824 /* RankViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
@@ -143,6 +149,10 @@
 				089461F6233A3FE5008F14B8 /* MapCreater.c */,
 				211F642A234C841C000B3C33 /* MapSolver.h */,
 				211F642B234C841C000B3C33 /* MapSolver.c */,
+				082CBEEA237D3600003A1186 /* JsonHandler.h */,
+				082CBEEB237D3600003A1186 /* JsonHandler.m */,
+				082CBEED237D6ED7003A1186 /* NetworkManager.h */,
+				082CBEEE237D6ED7003A1186 /* NetworkManager.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -401,8 +411,10 @@
 				08D37AEA233A148300293715 /* AppDelegate.m in Sources */,
 				08586A01235021F400C1F824 /* RankSelButton.m in Sources */,
 				211F642C234C841C000B3C33 /* MapSolver.c in Sources */,
+				082CBEEF237D6ED7003A1186 /* NetworkManager.m in Sources */,
 				085869FE23501E5C00C1F824 /* RankViewController.m in Sources */,
 				0876304E234C7964009F2D8F /* BoardUnitView.m in Sources */,
+				082CBEEC237D3600003A1186 /* JsonHandler.m in Sources */,
 				088866B3233B45CF00314201 /* HomeViewController.m in Sources */,
 				085869FB234E0ABC00C1F824 /* BoardView.m in Sources */,
 			);
@@ -577,7 +589,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5PATB582T8;
+				DEVELOPMENT_TEAM = Q64PWL267Z;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = amazingSudoku/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -596,7 +609,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5PATB582T8;
+				DEVELOPMENT_TEAM = Q64PWL267Z;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = amazingSudoku/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (

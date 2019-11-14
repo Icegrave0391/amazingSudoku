@@ -30,9 +30,9 @@ void createSudoku(int sudoku[9][9]){
         }
     }
     //generate other rows
-    int bool = recursionSudoku(sudoku, 1, 0);
-    while (!bool) {
-        bool = recursionSudoku(sudoku, 1, 0) ;
+    int bool1 = recursionSudoku(sudoku, 1, 0);
+    while (!bool1) {
+        bool1 = recursionSudoku(sudoku, 1, 0) ;
     }
 }
 int recursionSudoku(int sudoku[9][9], int arow , int aline){
@@ -209,11 +209,11 @@ int uniqueSolution(int row, int col){
     //    boolean[][] trows = new boolean[9][10];
     //    boolean[][] tcols = new boolean[9][10];
     //    boolean[][] tblocks = new boolean[9][10];
-    int trows[9][10] = {0} ;
-    int tcols[9][10] = {0} ;
-    int tblocks[9][10] = {0} ;
+    int trows[9][10] = {0};
+    int tcols[9][10] = {0};
+    int tblocks[9][10] = {0};
     //    int[][] tfield = new int[9][9];
-    int tfield[9][9] = {0} ;
+    int tfield[9][9] = {0};
     
     // 临时数组
     for(int i = 0; i < 9; i++) {
@@ -285,24 +285,7 @@ void creatSudoku(int difficuties, int global_sudoku[][9], int global_solution[][
     else if(difficuties == 1) rate = 0.6;
     else if(difficuties == 2) rate = 0.5;
     else rate = 0.4;
-//    switch(difficuties){
-//        case(0):{
-//            rate = 0.7;
-//            break;
-//        }
-//        case(1):{
-//            rate = 0.6;
-//            break;
-//        }
-//        case(2):{
-//            rate = 0.5;
-//            break;
-//        }
-//        case(3):{
-//            rate = 0.4;
-//            break;
-//        }
-//    }
+
     int seed[81] ={
 1,2,3,4,5,6,7,8,9,
 4,5,6,7,8,9,1,2,3,

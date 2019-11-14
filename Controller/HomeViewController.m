@@ -23,18 +23,6 @@ const float kCellWidth = 367.f;
     [super viewDidLoad];
     [self setUpUI];
     //test
-//    self.view.backgroundColor = [UIColor whiteColor];
-//    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-//    btn.backgroundColor = [UIColor blueColor];
-//    [self.view addSubview:btn];
-//    [btn addTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
-//
-//    UIButton * btn2 = [[UIButton alloc] initWithFrame:CGRectMake(200, 200, 100, 100)];
-//    btn2.backgroundColor = [UIColor greenColor];
-//    [btn2 setTitle:@"controller跳转" forState:UIControlStateNormal];
-//    [self.view addSubview:btn2];
-//    [btn2 addTarget:self action:@selector(testcontroller) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -43,17 +31,17 @@ const float kCellWidth = 367.f;
 }
 
 //for testing sudoku map and int map
-- (void)test{
-    self.sudoku = [[Sudoku alloc] initWithLevel:1];
-    NSLog(@"map : %@", self.sudoku.mapArr);
-    NSLog(@"sol : %@", self.sudoku.solArr);
-    intArr testarr = [NSArray convert2DNSArray:self.sudoku.solArr];
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            printf("%d ", testarr[i][j]);
-        }printf("\n");
-    }
-}
+//- (void)test{
+//    self.sudoku = [[Sudoku alloc] initWithLevel:1];
+//    NSLog(@"map : %@", self.sudoku.mapArr);
+//    NSLog(@"sol : %@", self.sudoku.solArr);
+//    intArr testarr = [NSArray convert2DNSArray:self.sudoku.solArr];
+//    for (int i = 0; i < 9; i++) {
+//        for (int j = 0; j < 9; j++) {
+//            printf("%d ", testarr[i][j]);
+//        }printf("\n");
+//    }
+//}
 
 - (void)testcontroller{
     PlayGroundViewController * playVC = [[PlayGroundViewController alloc] initWithSudokuLevel:level_3];

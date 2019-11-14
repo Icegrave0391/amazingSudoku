@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSArray (TwoDArray)
 
 typedef int (*intArr)[9];
-+ (NSArray *)convert2DArray:(int[_Nullable 9][9])arr;
-+ (intArr)convert2DNSArray:(NSArray *)array;
++ (NSArray *)convert2DArray:(int[_Nullable 9][9])arr;        //将C类型二维数组转化为NSArray
++ (intArr)convert2DNSArray:(NSArray *)array;                 //将NSArray转化为C类型二维数组
 
 @end
 

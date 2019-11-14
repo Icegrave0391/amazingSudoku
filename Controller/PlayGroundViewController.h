@@ -13,12 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PlayGroundViewController : UIViewController
 
 //model
-@property(nonatomic, strong)Sudoku * sudoku;
+@property(nonatomic, strong)Sudoku * sudoku;             //数独模型
 //arguments properties
-@property(nonatomic, assign)NSTimeInterval playTime;
-@property(nonatomic, assign)SudokuLevel level;
+@property(nonatomic, assign)NSTimeInterval playTime;     //游戏时间
+@property(nonatomic, assign)SudokuLevel level;           //游戏等级
 
-- (instancetype)initWithSudokuLevel:(SudokuLevel)level;
+- (instancetype)initWithSudokuLevel:(SudokuLevel)level;  //根据等级生成游戏
 @end
 
 NS_ASSUME_NONNULL_END

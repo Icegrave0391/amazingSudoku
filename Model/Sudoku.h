@@ -9,13 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "NSArray+TwoDArray.h"
 #import "MapCreater.h"
+
 NS_ASSUME_NONNULL_BEGIN
 @interface Sudoku : NSObject
-@property(nonatomic, strong)NSArray * mapArr;  //map board
-@property(nonatomic, strong)NSMutableArray * currentSolArr;
-@property(nonatomic, strong)NSArray * solArr;  //solution
+@property(nonatomic, strong)NSArray * mapArr;  //map board               //数独棋盘
+@property(nonatomic, strong)NSMutableArray * currentSolArr;              //当前解答棋盘
+@property(nonatomic, strong)NSArray * solArr;  //solution                //答案棋盘
 
-- (instancetype)initWithLevel:(SudokuLevel)level;
+- (instancetype)initWithLevel:(SudokuLevel)level;                        //生成数独模型
+
+- (id)initWithDict:(NSDictionary *)aDict;                                //从字典中解析模型
+- (NSDictionary *)dictionaryFromSudoku;                                  //将模型转化为字典
+//- (NSDictionary *)attributesMapDictionary;
 @end
 
 NS_ASSUME_NONNULL_END

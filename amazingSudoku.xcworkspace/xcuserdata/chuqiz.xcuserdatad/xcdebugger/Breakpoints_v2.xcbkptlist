@@ -34,7 +34,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "263"
             endingLineNumber = "263"
-            landmarkName = "-inputClicked:"
+            landmarkName = "-setSelectedCell:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -85,7 +85,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "425"
             endingLineNumber = "425"
-            landmarkName = "-updateColWrongCellsWithCol:intArr:"
+            landmarkName = "-updateRowWrongCellsWithRow:intArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -202,27 +202,8 @@
             timestampString = "592730014.801737"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "371"
-            endingLineNumber = "371"
-            landmarkName = "creatSudoku(difficuties)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7A5631F9-3F86-4DFA-9674-B7302DF5CC2D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Utils/MapCreater.c"
-            timestampString = "592730014.802724"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
-            landmarkName = "creatSudoku(difficuties)"
-            landmarkType = "9">
+            startingLineNumber = "356"
+            endingLineNumber = "356">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
