@@ -27,7 +27,9 @@
 - (id)initWithDict:(NSDictionary *)aDict{
     self = [super init];
     if(self){
-        [self setAttributesDictionary:aDict];
+        self.mapArr = aDict[@"mapArr[][]"];
+        self.currentSolArr = aDict[@"currentSolArr[][]"];
+        self.solArr = aDict[@"solArr"];
     }
     return self;
 }
@@ -62,9 +64,9 @@
 
 - (NSDictionary *)attributesMapDictionary{
     return @{
-        @"mapArr" : @"mapArr",
-        @"currentSolArr" : @"currentSolArr",
-        @"solArr" : @"solArr"
+        @"mapArr[][]" : @"mapArr[][]",
+        @"currentSolArr[][]" : @"currentSolArr[][]",
+        @"solArr[][]" : @"solArr[][]"
     };
 }
 

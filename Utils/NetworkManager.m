@@ -7,7 +7,7 @@
 //
 
 #import "NetworkManager.h"
-#define HOSTURL @"http://10.10.200.53:65432/"
+#define HOSTURL @"http://172.20.10.5:65432/"
 //static const int port = 65432;
 @interface NetworkManager ()
 @property(nonatomic, strong)AFHTTPSessionManager * manager;
@@ -21,10 +21,10 @@ static NetworkManager * sharedManager = nil;
     dispatch_once(&once, ^{
         sharedManager = [[NetworkManager alloc] init];
         NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        config.timeoutIntervalForRequest = 10;
+        config.timeoutIntervalForRequest = 200;
         config.allowsCellularAccess = YES;
         AFHTTPSessionManager * manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:HOSTURL] sessionConfiguration:config];
-        manager.requestSerializer.timeoutInterval = 10;
+        manager.requestSerializer.timeoutInterval = 200;
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects: @"text/plain", @"application/json", @"text/json", @"text/javascript", @"text/html", @"image/png", nil];
         sharedManager.manager = manager;
     });
@@ -42,13 +42,35 @@ static NetworkManager * sharedManager = nil;
         static NSString * ahost = nil;
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            NSURL * sourceURL = [NSURL URLWithString:@"zcq/sudoku.json"
-                                       relativeToURL:sharedManager.manager.baseURL];
+//            NSURL * sourceURL = [NSURL URLWithString:@"zcq/sudoku.json"
+//                                       relativeToURL:sharedManager.manager.baseURL];
+            NSURL * sourceURL = self.manager.baseURL;
             ahost = sourceURL.absoluteString;
         });
         _host = ahost;
     }
     return _host;
+}
+
+
+- (NSString *)getHost{
+    if(!_getHost){
+            static NSString * ahost = nil;
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                NSURL * sourceURL = [NSURL URLWithString:@"write.json"
+                                           relativeToURL:sharedManager.manager.baseURL];
+//                NSURL * sourceURL = self.manager.baseURL;
+                ahost = sourceURL.absoluteString;
+            });
+            _getHost = ahost;
+        }
+        return _getHost;
+}
+- (NSString *)firstGetURL{
+    NSURL * sourceURL = [NSURL URLWithString:@"sudoku.json"
+    relativeToURL:sharedManager.manager.baseURL];
+    return sourceURL.absoluteString;
 }
 
 -(int)networkStatusChangeAFN

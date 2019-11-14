@@ -21,8 +21,16 @@ typedef void (^requestSuccessBlock)(NSDictionary *dic);
 typedef void (^requestFailureBlock)(NSError *error);
 @interface NetworkManager : NSObject
 
-+ (instancetype)sharedManager;
 @property(nonatomic, strong)NSString * host;
+@property(nonatomic, strong)NSString * getHost;
++ (instancetype)sharedManager;
+-(int)networkStatusChangeAFN;
+- (NSString *)firstGetURL;
+- (void)requestWithMethod:(HTTPMethod)method
+             WithPath:(NSString *)path
+           WithParams:(NSDictionary*)params
+     WithSuccessBlock:(requestSuccessBlock)success
+      WithFailurBlock:(requestFailureBlock)failure;
 @end
 
 NS_ASSUME_NONNULL_END

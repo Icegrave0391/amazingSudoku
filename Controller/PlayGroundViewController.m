@@ -12,7 +12,7 @@
 #import "MapSolver.h"
 #import "NSArray+TwoDArray.h"
 #import "NetworkManager.h"
-//#import "JsonHandler.h"
+#import "JsonHandler.h"
 
 @interface PlayGroundViewController ()
 @property(nonatomic, strong)NSMutableArray * boardUnitArr;
@@ -20,6 +20,7 @@
 @property(nonatomic, strong)NSArray <UIImageView *> * inputArr;
 @property(nonatomic, assign)NSInteger levelLabel;
 @property(nonatomic, strong)UILabel * timeLabel;
+@property(nonatomic, assign)BOOL is_netMode;
 @end
 
 @implementation PlayGroundViewController
@@ -28,9 +29,17 @@
     self = [super init];
     if(self){
         self.sudoku = [[Sudoku alloc] initWithLevel:level];
-#pragma mark - log test
-//        NSLog(@"-----dict : %@ ----", [self.sudoku dictionaryFromSudoku]);
-        NSLog(@"-----------url :%@----------", [NetworkManager sharedManager].host);
+        NSDictionary * dic = [self.sudoku dictionaryFromSudoku];
+//        NSString * jsonStr = [JsonHandler dictionaryToJson:dic];
+//        NSLog(@"--------host: %@", [NetworkManager sharedManager].host);
+//        [[NetworkManager sharedManager] requestWithMethod:POST WithPath:[NetworkManager sharedManager].host WithParams:dic WithSuccessBlock:^(NSDictionary * _Nonnull dic) {
+//            NSLog(@"success");
+//        } WithFailurBlock:^(NSError * _Nonnull error) {
+//            NSLog(@"err : %@",error);
+//        }];
+        #pragma mark - log test
+                //        NSLog(@"-----dict : %@ ----", [self.sudoku dictionaryFromSudoku]);
+        //                   NSLog(@"-----------url :%@----------", [NetworkManager sharedManager].host);
         self.level = level;
         switch (level) {
             case level_2:
@@ -48,20 +57,45 @@
             default:
                 break;
         }
-        intArr arr = [NSArray convert2DNSArray:self.sudoku.solArr];
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                printf("%d ",arr[i][j]);
-            }printf("\n");
-        }
         //init board unit arr
-        [self initBoardUnitArr];
+        if(level != level_5){
+            [self initBoardUnitArr];
+        }
         //init input arr
         [self initInputArr];
     }
     return self;
 }
 
+- (void)setGameLevel:(SudokuLevel)level{
+    self.sudoku = [[Sudoku alloc] initWithLevel:level];
+    #pragma mark - log test
+            //        NSLog(@"-----dict : %@ ----", [self.sudoku dictionaryFromSudoku]);
+    //                   NSLog(@"-----------url :%@----------", [NetworkManager sharedManager].host);
+    self.level = level;
+    switch (level) {
+        case level_2:
+            self.levelLabel = 1;
+            break;
+        case level_3:
+            self.levelLabel = 2;
+            break;
+        case level_4:
+            self.levelLabel = 3;
+            break;
+        case level_5:
+            self.levelLabel = 4;
+            break;
+        default:
+            break;
+    }
+    //init board unit arr
+    if(level != level_5){
+        [self initBoardUnitArr];
+    }
+    //init input arr
+    [self initInputArr];
+}
 #pragma mark - view lifecycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -75,16 +109,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //test
-//    self.view.backgroundColor = UIColor.whiteColor;
-//    NSLog(@"sudokuARR : %@",self.sudoku.mapArr);
-//    for(int i = 0; i < 9; i++){
-//        for(int j = 0; j < 9; j++){
-//            BoardUnitView * view = self.boardUnitArr[i][j];
-//            printf("row:%ld col:%ld status:%ld number:%ld\n",(long)view.row, (long)view.column, (long)view.unitStatus, (long)[view.unitNumber integerValue]);
-//        }printf("\n");
-//    }
-    //Set UI
+    if(self.levelLabel == 4){
+        UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"多人游戏？" message:@"您是否要进入合作模式?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self cooperationMode:level_5];
+        }];
+        UIAlertAction * cancelAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self setLevel:level_5];
+        }];
+        [confirmAction setValue:[UIColor colorWithRed:0.88 green:0.70 blue:0.72 alpha:1.0] forKey:@"_titleTextColor"];
+        [cancelAction setValue:UIColor.grayColor forKey:@"_titleTextColor"];
+        [alert addAction:confirmAction];
+        [alert addAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
     [self setUpUI];
 }
 
@@ -584,6 +622,33 @@ static dispatch_source_t _timer;
     NSInteger hour=(((NSInteger) timeRemain)/60)/60;
     self.timeLabel.text = [NSString stringWithFormat:@"%li:%li:%li", (long)hour, (long)minute, (long)sec];
 }
-
-
+#pragma mark - 网络请求
+- (void)cooperationMode:(SudokuLevel)level{
+    int afn = [[NetworkManager sharedManager] networkStatusChangeAFN];
+    if(!afn){
+        UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"无法连接" message:@"请检查您的网络状态" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * confirmAction=[UIAlertAction actionWithTitle:@"好吧" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self setGameLevel:level];
+            [self initBoardUnitArr];
+        }];
+        [confirmAction setValue:[UIColor colorWithRed:0.88 green:0.70 blue:0.72 alpha:1.0] forKey:@"_titleTextColor"];
+        [alert addAction:confirmAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    
+    else{
+        self.is_netMode = YES;
+        [[NetworkManager sharedManager] requestWithMethod:GET WithPath:[[NetworkManager sharedManager] firstGetURL]  WithParams:@{} WithSuccessBlock:^(NSDictionary * _Nonnull dic) {
+            Sudoku * sudoku = [[Sudoku alloc] initWithDict:dic];
+            NSLog(@"sudopku ; %@", sudoku);
+            for(int i = 0; i < 9; i++){
+                for(int j = 0; j < 9; j++){
+                    printf("%d", [sudoku.mapArr[i][j] intValue]);
+                }printf("\n");
+            }
+        } WithFailurBlock:^(NSError * _Nonnull error) {
+            NSLog(@"---failed: %@", error);
+        }];
+    }
+}
 @end

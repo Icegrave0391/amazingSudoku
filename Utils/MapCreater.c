@@ -128,10 +128,6 @@ int DFSSovleSudoku(int sudokuBoard[9][9], int r[9][10], int c[9][10], int b[9][1
 }
 
 int lasVegasCreateSudoku(int n){
-//    extern int sudokuBoard[9][9] ;
-//    extern int r[9][10] ;
-//    extern int c[9][10] ;
-//    extern int b[9][10] ;
     int i, j, k, value;
     srand((unsigned int)time(NULL)) ;
     // 初始化
@@ -168,8 +164,8 @@ int lasVegasCreateSudoku(int n){
 }
 
 void generateSudokuByDigHoles(int remains){
-    extern int sudokuBoard[9][9] ;
-    extern int sudokuSolution[9][9] ;
+//    extern int sudokuBoard[9][9] ;
+//    extern int sudokuSolution[9][9] ;
     extern int r[9][10] ;
     extern int c[9][10] ;
     extern int b[9][10] ;
@@ -255,7 +251,6 @@ void generateSudoku(SudokuLevel level){
         case level_1:
 //            generateSudokuByDigHoles(36);
             creatSudoku(0, sudokuBoard, sudokuSolution);
-            break;
             break;
         case level_2:
 //            generateSudokuByDigHoles(28);
