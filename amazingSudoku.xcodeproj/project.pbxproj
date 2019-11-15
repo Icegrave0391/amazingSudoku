@@ -588,6 +588,7 @@
 			baseConfigurationReference = D1D20F06A9226C05BE10DA8C /* Pods-amazingSudoku.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q64PWL267Z;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
@@ -599,6 +600,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.icegrave0391.amazingSudoku;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -608,6 +610,7 @@
 			baseConfigurationReference = C25806C10FBD0031D2102D03 /* Pods-amazingSudoku.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q64PWL267Z;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
@@ -619,6 +622,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.icegrave0391.amazingSudoku;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

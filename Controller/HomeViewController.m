@@ -10,12 +10,15 @@
 #import "Sudoku.h"
 #import "PlayGroundViewController.h"
 #import <Masonry.h>
-@interface HomeViewController ()
+@interface HomeViewController ()<UIAlertViewDelegate>
 @property(nonatomic, strong)Sudoku * sudoku;
 @property(nonatomic, strong)NSArray <UIButton *>* btnArr;
 @end
 
 @implementation HomeViewController
+UITextField *textField;
+UITextField *textField2;
+
 const float kCellHeight = 121.f;
 const float kCellSpacing = 48.f;
 const float kCellWidth = 367.f;
@@ -97,6 +100,35 @@ const float kCellWidth = 367.f;
         }];
     }
     self.btnArr = [NSArray arrayWithArray:tempArr];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"登陆" message:@"请输入用户名以及密码" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+
+    // 默认样式，无输入框
+    //  alert.alertViewStyle = UIAlertViewStyleDefault;
+    // 基本输入框，显示实际输入的内容
+    //  alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    // 密码形式的输入框，输入字符会显示为圆点
+    //  alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
+    // 用户名，密码登录框
+    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+
+    // 设置输入框的键盘类型
+    textField = [alert textFieldAtIndex:0];
+    textField.placeholder = @"Login";
+    textField.keyboardType = UIKeyboardTypeASCIICapable;
+
+    if (alert.alertViewStyle == UIAlertViewStyleLoginAndPasswordInput) {
+      // 对于用户名密码类型的弹出框，还可以取另一个输入框
+      textField2 = [alert textFieldAtIndex:1];
+      textField2.placeholder = @"Password";
+      textField2.keyboardType = UIKeyboardTypeASCIICapable;
+    }
+    [alert show];
+}
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView {
+    if (textField.text.length > 0 && textField2.text.length > 0) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)clickedButton:(UIButton *)sender{

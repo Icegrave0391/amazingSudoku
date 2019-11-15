@@ -21,13 +21,14 @@ typedef void (^requestSuccessBlock)(NSDictionary *dic);
 typedef void (^requestFailureBlock)(NSError *error);
 @interface NetworkManager : NSObject
 
-@property(nonatomic, strong)NSString * host;
-@property(nonatomic, strong)NSString * getHost;
-+ (instancetype)sharedManager;
--(int)networkStatusChangeAFN;
-- (NSString *)firstGetURL;
-- (NSString *)GetURL;
-- (void)requestWithMethod:(HTTPMethod)method
+@property(nonatomic, strong)NSString * host;       //POST 服务端储存位置
+@property(nonatomic, strong)NSString * getHost;    //GET 服务端储存位置
+
++ (instancetype)sharedManager;                     //生成网络模型的单例
+-(int)networkStatusChangeAFN;                      //网络状态监测
+- (NSString *)firstGetURL;                         //用于GET初始化的数独
+- (NSString *)GetURL;                              //用于GET
+- (void)requestWithMethod:(HTTPMethod)method       //封装好的请求处理方法
              WithPath:(NSString *)path
            WithParams:(NSDictionary*)params
      WithSuccessBlock:(requestSuccessBlock)success
